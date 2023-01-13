@@ -1,23 +1,28 @@
-// import Header from "./components/header/header";
-import Body from "./components/body/body";
-import Footer from "./components/footer/footer";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Headers from "./components/header/index";
+import AboutUs from "./components/aboutus/index";
+import Backdrop from "./components/backdrop/BackDrop";
 import Blogs from "./components/blog/Blogs";
 import Post from "./components/blog/PostComp/Post";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-// import Policy from "./components/policy/policy";
-import ProductDetail from "./components/productDetail/productDetail";
-import FAQ from "./components/FAQ/index"
-import MainContext from "./components/Context/Context";
-import VendorList from "./components/vendor/vendorList";
-import VendorProduct from "./components/vendor/comp/vendorProduct";
-import NotFound from "./utiles/NotFound"
+import Body from "./components/body/body";
 import BookingForm from "./components/booking/index";
-import Home from "./components/home/index"
-import UseBikes from "./components/useBikes/index"
-import Backdrop from "./components/backdrop/BackDrop";
-import AboutUs from "./components/aboutus/index";
+import Cart from './components/CartPage/index';
+import MainContext from "./components/Context/Context";
+import FAQ from "./components/FAQ/index";
+import Footer from "./components/footer/footer";
+import Headers from "./components/header/index";
+import Home from "./components/home/index";
+import ProductDetail from "./components/productDetail/productDetail";
+import UseBikes from "./components/useBikes/index";
+import BikeList from './components/USER/BikeList';
+import CreateBike from './components/USER/CreateBike';
+import Login from './components/USER/LogIn';
+import Profile from './components/USER/Profile';
+import Signup from './components/USER/SignUp';
+import VendorProduct from "./components/vendor/comp/vendorProduct";
+import VendorList from "./components/vendor/vendorList";
+import NotFound from "./utiles/NotFound";
+
 function App() {
   return (
     <div className="App">
@@ -30,25 +35,28 @@ function App() {
             <Route exact path="/news/newsdetailpage" element={<Post />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/help&support" element={<FAQ />} />
-            <Route path="/productdetailpage" element={<ProductDetail />} />
+            <Route path="/productdetailpage/:id" element={<ProductDetail />} />
             <Route path="/vendorlist" element={<VendorList />} />
             <Route path="/" element={<Home />} />
-            <Route path="/brand" element={<Body />} />
-            <Route path="/brand1" element={<Body />} />
-            <Route path="/brand2" element={<Body />} />
+            <Route path="/brand/:brand" element={<Body />} />
             <Route path="/vendordetailpage" element={<VendorProduct />} />
             <Route path="/advancebooking" element={<BookingForm />} />
             <Route path="/usebikes" element={<UseBikes />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/create" element={<CreateBike />} />
+            <Route path="/mylist" element={<BikeList />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <a
             href="https://wa.me/9203067003056"
-            class="whatsapp_float"
+            className="whatsapp_float"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <i class="fa-brands fa-whatsapp fa-2x"></i>
-            {/* <i class="fa fa-whatsapp whatsapp-icon"></i> */}
+            <i className="fa-brands fa-whatsapp fa-2x"></i>
           </a>
           <Footer />
         </Router>

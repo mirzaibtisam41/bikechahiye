@@ -1,9 +1,18 @@
-import React from "react";
-import pic from "../images/card5.jpg";
+import React, { useEffect, useState } from "react";
 import Carousel from "react-elastic-carousel";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
-const MostRelatedProduct = ({ heading, success }) => {
-  const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const MostRelatedProduct = ({
+  heading,
+  success,
+  product,
+  serverURL,
+  setID,
+}) => {
+  const navigate = useNavigate();
+  const storeProducts = useSelector((state) => state.products.products);
+  const [products, setProducts] = useState([]);
   const breakPoints = [
     { width: 1, itemsToShow: 1 },
     { width: 550, itemsToShow: 2, itemsToScroll: 2, pagination: false },
@@ -13,8 +22,15 @@ const MostRelatedProduct = ({ heading, success }) => {
     { width: 1750, itemsToShow: 6 },
   ];
 
+  useEffect(() => {
+    const _filter = storeProducts?.filter(
+      (item) => item?.brand === product?.brand && item?._id !== product?._id
+    );
+    setProducts(_filter);
+  }, [product]);
+
   return (
-    <div className="mt-5 mb-5 " >
+    <div className="mt-5 mb-5 ">
       {heading !== false && (
         <section className="container text-center mt-4">
           <span
@@ -27,38 +43,53 @@ const MostRelatedProduct = ({ heading, success }) => {
             className={success ? "my-4" : "mx-auto my-2 service-text"}
             style={{ width: "27rem" }}
           >
-            {!success && (
-              <span className="text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Voluptate exercitationem sequi
-              </span>
-            )}
+            {!success && <span className="text-center"></span>}
           </div>
         </section>
       )}
-      <section className=" border container services-page card-page shadow-md py-2 ">
-      <div className="carousel-wrapper w-100">
-        <Carousel breakPoints={breakPoints}>
-          {array.map((item, index) => {
-            return (
-              <div key={index} className="card mx-2">
-                <img className="card-img-top" src={pic} alt="Card cap" />
-                <div className="card-body">
-                  <h5 className="card-title">Product Title</h5>
-                  <p className="card-text">
-                    This is a longer card with supporting text below as a
-                    natural lead-in to additional content. This content is a
-                    little bit longer.
-                  </p>
-                  <div className="row bd-highlight">
-                    <i class="col-2 bi bi-geo-alt"></i>
-                    <p className="col">Gulberg, Lahore</p>
+      <section className=" border container services-page card-page shadow-md py-2 mt-5">
+        <div className="carousel-wrapper w-100">
+          <Carousel breakPoints={breakPoints}>
+            {products.map((item, index) => {
+              return (
+                <div key={index} className="card mx-2">
+                  <img
+                    className="card-img-top"
+                    style={{ height: "225px" }}
+                    src={`${serverURL}${item?.productPic}`}
+                    alt="Card cap"
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{item?.name}</h5>
+                    <p className="card-text justify">
+                      {item?.detail?.substring(0, 120)}...
+                    </p>
+                    <div className="flex align-items-center justify-content-between bd-highlight">
+                      <section
+                        className="flex align-items-center"
+                        style={{ flexGrow: 2, alignItems: "center" }}
+                      >
+                        <i className="col-2 bi bi-geo-alt"></i>
+                        <span className="col">Gulberg, Lahore</span>
+                      </section>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => {
+                          navigate(`/productdetailpage/${item._id}`);
+                          setTimeout(() => {
+                            setID(item?._id);
+                            window.scrollTo(0, 300);
+                          }, 1000);
+                        }}
+                      >
+                        See Details
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </Carousel>
+              );
+            })}
+          </Carousel>
         </div>
       </section>
     </div>

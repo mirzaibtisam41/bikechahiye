@@ -2,9 +2,9 @@ import React from 'react'
 import "./searchbar.css"
 export const SearchBar = () => {
     return (
-        <div class="container mt-5">
+        <div className="container mt-5">
 
-        <div class="row d-flex justify-content-center">
+        <div className="row d-flex justify-content-center">
 
             <div className="col-md-12">
 
@@ -31,48 +31,48 @@ export const SearchBar = () => {
 
                         <div className="col-md-6">
 
-                            <input type="text" class="form-control" placeholder="Enter address e.g. street, city and state or zip"/>
+                            <input type="text" className="form-control" placeholder="Enter address e.g. street, city and state or zip"/>
                             
                         </div>
 
                         <div className="col-md-2 px-2">
 
-                            <button class="btn btn-secondary btn-block">Search Results</button>
+                            <button className="btn btn-secondary btn-block">Search Results</button>
                             
                         </div>
                         
                     </div>
 
 
-                    <div class="mt-3">
+                    <div className="mt-3">
                         
-  {/* <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" class="advanced">
-    Advance Search With Filters <i class="fa fa-angle-down"></i>
+  {/* <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" className="advanced">
+    Advance Search With Filters <i className="fa fa-angle-down"></i>
   </a> */}
  
 
-{/* <div class="collapse" id="collapseExample">
-  <div class="card card-body">
+{/* <div className="collapse" id="collapseExample">
+  <div className="card card-body">
       
-     <div class="row">
+     <div className="row">
 
-        <div class="col-md-4">
+        <div className="col-md-4">
 
-            <input type="text" placeholder="Property ID" class="form-control">
+            <input type="text" placeholder="Property ID" className="form-control">
             
         </div>
 
 
-        <div class="col-md-4">
+        <div className="col-md-4">
 
-            <input type="text" class="form-control" placeholder="Search by MAP">
+            <input type="text" className="form-control" placeholder="Search by MAP">
             
         </div>
          
 
-         <div class="col-md-4">
+         <div className="col-md-4">
 
-            <input type="text" class="form-control" placeholder="Search by Country">
+            <input type="text" className="form-control" placeholder="Search by Country">
             
         </div>
          

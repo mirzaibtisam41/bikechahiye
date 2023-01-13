@@ -129,7 +129,6 @@ useEffect(()=>{
     //     setBlogDetail(item)
       
     // }
-    console.log("test", blogDetail)
     const startLoading = () => {
         setOpen(true);
     }

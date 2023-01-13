@@ -27,7 +27,7 @@ const FeaturedVendor = () => {
                     <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
                   </div>
                   <div className="row bd-highlight">
-                    <i class="col-2 bi bi-geo-alt"></i>
+                    <i className="col-2 bi bi-geo-alt"></i>
                     <p className='col' >Gulberg, Lahore</p>
                   </div>
                   <div className="bd-highlight">
@@ -46,7 +46,7 @@ const FeaturedVendor = () => {
                     <p>Lorem,11 ipsum dolor sit amet consectetur adipisicing elit.</p>
                   </div>
                   <div className="row bd-highlight">
-                    <i class="col-2 bi bi-geo-alt"></i>
+                    <i className="col-2 bi bi-geo-alt"></i>
                     <p className='col' >Gulberg, Lahore</p>
                   </div>
                   <div className="bd-highlight">
@@ -65,7 +65,7 @@ const FeaturedVendor = () => {
                     <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
                   </div>
                   <div className="row bd-highlight">
-                    <i class="col-2 bi bi-geo-alt"></i>
+                    <i className="col-2 bi bi-geo-alt"></i>
                     <p className='col' >Gulberg, Lahore</p>
                   </div>
                   <div className="bd-highlight">
@@ -84,7 +84,7 @@ const FeaturedVendor = () => {
                     <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
                   </div>
                   <div className="row bd-highlight">
-                    <i class="col-2 bi bi-geo-alt"></i>
+                    <i className="col-2 bi bi-geo-alt"></i>
                     <p className='col' >Gulberg, Lahore</p>
                   </div>
                   <div className="bd-highlight">

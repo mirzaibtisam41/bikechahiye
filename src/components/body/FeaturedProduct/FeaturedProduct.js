@@ -1,9 +1,10 @@
- import React from "react";
-import pic from "../../images/card5.jpg";
+import { CircularProgress } from "@mui/material";
+import React from "react";
 import Carousel from "react-elastic-carousel";
+import { useNavigate } from "react-router-dom";
 
-const MostRelatedProduct = ({ heading, success }) => {
-  const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const MostRelatedProduct = ({ heading, success, storeProducts, serverURL, loading }) => {
+  const navigate = useNavigate();
   const breakPoints = [
     { width: 1, itemsToShow: 1 },
     { width: 550, itemsToShow: 2, itemsToScroll: 2, pagination: false },
@@ -21,46 +22,59 @@ const MostRelatedProduct = ({ heading, success }) => {
             className=" h2 bold"
             style={{ borderBottom: "3px solid #dc3545", color: "black" }}
           >
-            {success ? success : "FEATURED PRODUCT"}
+            {success ? success : "FEATURED PRODUCTS"}
           </span>
           <div
             className={success ? "my-4" : "mx-auto my-2 service-text"}
-        
+
           >
             {!success && (
               <span className="text-center mt-2 mb-4">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Voluptate exercitationem sequi
               </span>
             )}
           </div>
         </section>
       )}
-      <section className=" border container services-page card-page shadow-md py-2 ">
-      <div className="carousel-wrapper w-100">
-        <Carousel breakPoints={breakPoints}>
-          {array.map((item, index) => {
-            return (
-              <div key={index} className="card mx-2">
-                <img className="card-img-top" src={pic} alt="Card cap" />
-                <div className="card-body">
-                  <h5 className="card-title">Product Title</h5>
-                  <p className="card-text">
-                    This is a longer card with supporting text below as a
-                    natural lead-in to additional content. This content is a
-                    little bit longer.
-                  </p>
-                  <div className="row bd-highlight">
-                    <i class="col-2 bi bi-geo-alt"></i>
-                    <p className="col">Gulberg, Lahore</p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </Carousel>
-        </div>
-      </section>
+      {
+        loading
+          ?
+          <div className="mt-2">
+            <CircularProgress style={{ color: "#dc3545" }} />
+          </div>
+          :
+          <section className="border mt-5 container services-page card-page shadow-md py-2 ">
+            <div className="carousel-wrapper w-100">
+              <Carousel breakPoints={breakPoints}>
+                {storeProducts?.length > 0 &&
+                  storeProducts?.filter(item => item.active === true && item.featuredProduct === true)
+                    .map((item, index) => {
+                      return (
+                        <div key={index} className="card mx-2">
+                          <img className="card-img-top" src={`${serverURL}${item?.productPic}`} alt="Card cap" />
+                          <div className="card-body">
+                            <h5 className="card-title">{item?.name}</h5>
+                            <p className="card-text justify">
+                              {item?.detail?.substring(0, 120)}...
+                            </p>
+                            <div className="flex align-items-center justify-content-between bd-highlight">
+                              <section className="flex align-items-center" style={{ flexGrow: 2, alignItems: 'center' }}>
+                                <i className="col-2 bi bi-geo-alt"></i>
+                                <span className="col">Gulberg, Lahore</span>
+                              </section>
+                              <button className="btn btn-danger"
+                                onClick={() =>
+                                  navigate(`/productdetailpage/${item._id}`)
+                                }
+                              >See Details</button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+              </Carousel>
+            </div>
+          </section>
+      }
     </div>
   );
 };

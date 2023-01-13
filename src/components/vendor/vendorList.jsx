@@ -41,17 +41,17 @@ const VendorList = ({ heading, success }) => {
                 className=" p-3 border"
                 onClick={() => navigate("/vendordetailpage")}
               >
-                <div class="card bg-dark text-white">
-                  <img src={image} class="card-img" alt="..." />
-                  <div class="card-img-overlay">
+                <div className="card bg-dark text-white">
+                  <img src={image} className="card-img" alt="..." />
+                  <div className="card-img-overlay">
                     <h5 className="card-title text-uppercase">Roshan Bikes</h5>
                   </div>
                 </div>
-                <p class="card-text p-2" style={{ color: "sienna" }}>
-                  <i class="fa-sharp fa-solid fa-location-dot fa-2x"></i>
+                <p className="card-text p-2" style={{ color: "sienna" }}>
+                  <i className="fa-sharp fa-solid fa-location-dot fa-2x"></i>
                   Pearl One, MM Alam Road, Lahore, Pakistan.
                 </p>
-                <p class="card-text">
+                <p className="card-text">
                   This is a wider card with supporting text below as a natural
                   lead-in to additional content. This content is a little bit
                   longer.

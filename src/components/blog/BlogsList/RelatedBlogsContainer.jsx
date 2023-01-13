@@ -12,17 +12,14 @@ const RelatedBlogsContainer=()=>{
       navigate(`/blogdetail?name=${item.title}&feature=1`)
   }
 
-  console.log("data===>", getBlogData)
-
-
-    return<div class="container">
-    <div class="flex">
+    return<div className="container">
+    <div className="flex">
     
       {
         getBlogData.map((item, index)=><div className="p-2" key={index} onClick={(e) => AddDetailFunc(item)}>
         
-        <div class="content ">
-           <img src={item.mainImage} class="card-img-top" alt="..."/>
+        <div className="content ">
+           <img src={item.mainImage} className="card-img-top" alt="..."/>
  
         </div>
         <h3 className="contentTitle">{item.title}</h3>

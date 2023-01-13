@@ -39,7 +39,7 @@ export default function SimpleAccordion({ productBlog }) {
           <Typography>
 
             {
-              productBlog.tableOfContents.map((item, index) => <div style={{ display: 'flex', flexDirection: 'row' , border:'none' }}  >
+              productBlog.tableOfContents.map((item, index) => <div key={index} style={{ display: 'flex', flexDirection: 'row' , border:'none' }}  >
 
 
 

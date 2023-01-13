@@ -37,7 +37,6 @@ const Gallery = ({ blogDetail}) => {
     const classes = useStyles();
     const { blogsToShow, getBlogData } = useContext(GlobalContext);
     const blog = getBlogData && getBlogData[blogsToShow];
-    console.log("PostDetail", blogDetail)
 
     return (
         <div className={classes.root}>

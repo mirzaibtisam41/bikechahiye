@@ -11,12 +11,12 @@ const AboutUs = () => {
       }}
     >
       <div
-        class="d-flex justify-content-center text-white new"
+        className="d-flex justify-content-center text-white new"
         style={{ position: "relative" }}
       >
-        <div class="lg p-4  bg-secondary ">
+        <div className="lg p-4  bg-secondary ">
           <h1>Hello world</h1>
-          <p class="p-4">
+          <p className="p-4">
             {" "}
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text
@@ -26,18 +26,18 @@ const AboutUs = () => {
           </p>
         </div>
 
-        {/* <div class="row align-items-center justify-content-center m-auto ">
+        {/* <div className="row align-items-center justify-content-center m-auto ">
           <img
-            class=" row d-flex justify-content-center justify-text-center  "
+            className=" row d-flex justify-content-center justify-text-center  "
             style={{ height: "8rem", width: "8rem", position: "absolute" }}
             src={logo}
             alt=""
           />
         </div> */}
 
-        <div class="lg p-5 bg-danger ">
+        <div className="lg p-5 bg-danger ">
           <h1>Hello world</h1>
-          <p class="p-4">
+          <p className="p-4">
             {" "}
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text
@@ -51,12 +51,12 @@ const AboutUs = () => {
       <br />
       <br />
       <div
-        class="d-flex justify-content-center text-white new"
+        className="d-flex justify-content-center text-white new"
         style={{ position: "relative" }}
       >
-        <div class="lg p-4  bg-secondary ">
+        <div className="lg p-4  bg-secondary ">
           <h1>Hello world</h1>
-          <p class="p-4">
+          <p className="p-4">
             {" "}
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text
@@ -66,18 +66,18 @@ const AboutUs = () => {
           </p>
         </div>
 
-        {/* <div class="row align-items-center justify-content-center m-auto ">
+        {/* <div className="row align-items-center justify-content-center m-auto ">
           <img
-            class=" row d-flex justify-content-center justify-text-center  "
+            className=" row d-flex justify-content-center justify-text-center  "
             style={{ height: "8rem", width: "8rem", position: "absolute" }}
             src={logo}
             alt=""
           />
         </div> */}
 
-        <div class="lg p-5 bg-danger ">
+        <div className="lg p-5 bg-danger ">
           <h1>Hello world</h1>
-          <p class="p-4">
+          <p className="p-4">
             {" "}
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text

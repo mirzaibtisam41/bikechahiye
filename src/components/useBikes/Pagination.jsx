@@ -1,7 +1,6 @@
-import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Pagination from "@material-ui/lab/Pagination";
-// import { GlobalContext } from "../Context/Context";
+import React from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,19 +12,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function BasicPagination() {
+export default function BasicPagination({ total, postPerPage, handleChange }) {
   const classes = useStyles();
-//   const { gettingChangeProducts } = useContext(GlobalContext);
-//   const handleChange = (event, value) => {
-//     gettingChangeProducts(value);
-//   };
 
   return (
     <div className={classes.root}>
       <Pagination
-        count={Math.ceil(150 / 15)}
+        count={Math.ceil(total / postPerPage)}
         color="secondary"
-        // onChange={handleChange}
+        onChange={handleChange}
       />
     </div>
   );

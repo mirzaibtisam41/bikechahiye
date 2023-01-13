@@ -38,7 +38,7 @@ const VendorDetail = ({ heading, success }) => {
         <div className="col-10 m-auto">
    
       
-        <div class="containers d-flex flex-wrap align-content-start">
+        <div className="containers d-flex flex-wrap align-content-start">
            {list.map((item, index) => (
         <div className=" p-2"  onClick={() => navigate("/productdetailpage")}>
                 <div className="card" style={{width: "20rem"}}>

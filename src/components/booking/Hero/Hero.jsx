@@ -31,7 +31,6 @@ const Hero = ({heading, success}) => {
           </Col>
           <Col className="col-3-faq d-flex align-items-end">
             <section className="d-flex justify-content-start align-items-center ">
-              {/* <img style={{ width: "10%" }} src="https://firewallforce.net/wp-content/uploads/2020/06/fw-icon-300x300.png" alt="" /> */}
               <span className="text-danger mt-2 h3 mx-2 bold fw-light">
                 PK<span className="text-muted h3 bold fw-light">Bikes</span>
               </span>
@@ -39,7 +38,7 @@ const Hero = ({heading, success}) => {
           </Col>
         </Row>
       </section>
-      <section className="text-center bygga-parent py-4">
+      <section className="text-center bygga-parent py-3">
         {heading !== false && (
           <section className="container text-center mt-4">
             <span
@@ -48,14 +47,6 @@ const Hero = ({heading, success}) => {
             >
               {success ? success : "BOOK YOUR NEW BIKE"}
             </span>
-            <div className={success ? "my-4" : "mx-auto my-2 service-text"}>
-              {!success && (
-                <span className="text-center mt-2 mb-4">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Voluptate exercitationem sequi
-                </span>
-              )}
-            </div>
           </section>
         )}
       </section>

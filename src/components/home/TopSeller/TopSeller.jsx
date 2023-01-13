@@ -1,9 +1,14 @@
-import React from "react";
-import pic from "../../images/card5.jpg";
+import { CircularProgress } from "@mui/material";
+import axios from "axios";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 import Carousel from "react-elastic-carousel";
+import { getTopSellersApi, serverURL } from "../../../common/api";
 
 const TopSeller = ({ heading, success }) => {
-  const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [seller, setSeller] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const breakPoints = [
     { width: 1, itemsToShow: 1 },
     { width: 550, itemsToShow: 2, itemsToScroll: 2, pagination: false },
@@ -13,8 +18,26 @@ const TopSeller = ({ heading, success }) => {
     { width: 1750, itemsToShow: 6 },
   ];
 
+  useEffect(() => {
+    getTopSellers();
+  }, []);
+
+  const getTopSellers = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get(getTopSellersApi);
+      if (data) {
+        setLoading(false);
+        setSeller(data);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="mt-5 mb-5 " >
+    <div className="mt-5 mb-5 ">
       {heading !== false && (
         <section className="container text-center mt-4">
           <span
@@ -23,44 +46,52 @@ const TopSeller = ({ heading, success }) => {
           >
             {success ? success : "TOP SELLER"}
           </span>
-          <div
-            className={success ? "my-4" : "mx-auto my-2 service-text"}
-          
-          >
-            {!success && (
-              <span className="text-center">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Voluptate exercitationem sequi
-              </span>
-            )}
+        </section>
+      )}
+      {loading ? (
+        <div className="mt-3">
+          <CircularProgress style={{ color: "#dc3545" }} />
+        </div>
+      ) : (
+        <section className="mt-5 border container services-page card-page shadow-md py-2 ">
+          <div className="carousel-wrapper w-100">
+            <Carousel breakPoints={breakPoints}>
+              {seller
+                ?.filter((item) => item?.featuredVendor === true)
+                ?.map((item, index) => {
+                  return (
+                    <div key={index} className="card mx-2">
+                      <img
+                        style={{ height: "235px" }}
+                        className="card-img-top"
+                        src={`${serverURL}${item?.image}`}
+                        alt="Card cap"
+                      />
+                      <div className="card-body">
+                        <h5 className="card-title">{item?.shopName}</h5>
+                        <section className="card-p">
+                          <h5 className="text-danger bold">Contact:</h5>
+                          <span className="card-text">
+                            <span className="text-success bold">Phone: </span>
+                            {item?.phone}
+                          </span>
+                          <p className="card-text">
+                            <span className="text-success bold">Email: </span>
+                            {item?.email}
+                          </p>
+                          <div className="text-secondary">
+                            <span>Registered- </span>
+                            {moment(item?.createdAt).format("LL")}
+                          </div>
+                        </section>
+                      </div>
+                    </div>
+                  );
+                })}
+            </Carousel>
           </div>
         </section>
       )}
-      <section className=" border container services-page card-page shadow-md py-2 ">
-      <div className="carousel-wrapper w-100">
-        <Carousel breakPoints={breakPoints}>
-          {array.map((item, index) => {
-            return (
-              <div key={index} className="card mx-2">
-                <img className="card-img-top" src={pic} alt="Card cap" />
-                <div className="card-body">
-                  <h5 className="card-title">Vendor Name</h5>
-                  <p className="card-text">
-                    This is a longer card with supporting text below as a
-                    natural lead-in to additional content. This content is a
-                    little bit longer.
-                  </p>
-                  <div className="row bd-highlight">
-                    <i class="col-2 bi bi-geo-alt"></i>
-                    <p className="col">Gulberg, Lahore</p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </Carousel>
-        </div>
-      </section>
     </div>
   );
 };
