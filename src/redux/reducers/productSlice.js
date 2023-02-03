@@ -3,7 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     products: [],
     cart: [],
-    brands: []
+    brands: [],
+    wishList: [],
+    route: null,
+    spareParts: []
 }
 
 const productSlice = createSlice({
@@ -19,8 +22,20 @@ const productSlice = createSlice({
         setCartProducts: (state, action) => {
             state.cart.push(action.payload);
         },
+        setWishListProducts: (state, action) => {
+            state.wishList.push(action.payload);
+        },
+        setSparePartsProducts: (state, action) => {
+            state.spareParts = action.payload;
+        },
         removeCartProducts: (state, action) => {
             state.cart = state.cart.filter(item => item.product._id !== action.payload._id);
+        },
+        setRoute: (state, action) => {
+            state.route = action.payload;
+        },
+        removeWishListProducts: (state, action) => {
+            state.wishList = state.wishList.filter(item => item._id !== action.payload._id);
         },
         updateCartProduct: (state, action) => {
             const { id, op } = action.payload;
@@ -38,6 +53,6 @@ const productSlice = createSlice({
     },
 });
 
-export const { setAllProducts, setCartProducts, removeCartProducts, updateCartProduct, setAllBrands } = productSlice.actions;
+export const { setAllProducts, setCartProducts, removeCartProducts, updateCartProduct, setAllBrands, setRoute, setWishListProducts, removeWishListProducts, setSparePartsProducts } = productSlice.actions;
 
 export default productSlice.reducer;

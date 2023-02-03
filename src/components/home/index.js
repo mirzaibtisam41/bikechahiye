@@ -32,7 +32,7 @@ const Index = () => {
   return (
     <div>
       <Carousel />
-      <SearchBar />
+      {/* <SearchBar /> */}
       <MostRelatedProduct
         storeProducts={storeProducts}
         serverURL={serverURL}

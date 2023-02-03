@@ -3,10 +3,16 @@ import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import Carousel from "react-elastic-carousel";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import { getTopSellersApi, serverURL } from "../../../common/api";
+import { setVendorsList } from "../../../redux/reducers/user";
 
 const TopSeller = ({ heading, success }) => {
-  const [seller, setSeller] = useState([]);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { vendorList } = useSelector((state) => state.user);
+  const [seller, setSeller] = useState(vendorList);
   const [loading, setLoading] = useState(false);
 
   const breakPoints = [
@@ -28,7 +34,7 @@ const TopSeller = ({ heading, success }) => {
       const { data } = await axios.get(getTopSellersApi);
       if (data) {
         setLoading(false);
-        setSeller(data);
+        dispatch(setVendorsList(data));
       }
     } catch (error) {
       setLoading(false);
@@ -58,14 +64,19 @@ const TopSeller = ({ heading, success }) => {
             <Carousel breakPoints={breakPoints}>
               {seller
                 ?.filter((item) => item?.featuredVendor === true)
+                ?.slice(0, 6)
                 ?.map((item, index) => {
                   return (
-                    <div key={index} className="card mx-2">
+                    <div
+                      onClick={() => navigate(`/vendordetailpage/${item?._id}`)}
+                      key={index}
+                      className="card mx-2"
+                    >
                       <img
-                        style={{ height: "235px" }}
+                        style={{ height: "235px", width: "313px" }}
                         className="card-img-top"
                         src={`${serverURL}${item?.image}`}
-                        alt="Card cap"
+                        alt="Seller Pic"
                       />
                       <div className="card-body">
                         <h5 className="card-title">{item?.shopName}</h5>

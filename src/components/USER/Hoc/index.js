@@ -6,7 +6,7 @@ const index = (Component) => {
     function HOC() {
         const token = useSelector(state => state.user.token);
         return <React.Fragment>
-            {token ? <Navigate to={'/create'} /> : <Component />}
+            {token ? <Navigate to={'/profile'} /> : <Component />}
         </React.Fragment>
     }
     return HOC;

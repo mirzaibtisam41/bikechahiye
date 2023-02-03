@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import commaNumber from "comma-number";
 
 const Payment = ({ storeCart }) => {
-  const discount = 0;
   const deliverCharges = 100;
 
   const [totalPayment, setPayment] = useState(0);
+  const [totalDiscount, setDiscount] = useState(0);
 
   useEffect(() => {
     calculatePayment();
@@ -16,6 +16,11 @@ const Payment = ({ storeCart }) => {
       return acc + next?.product?.price * next?.count;
     }, 0);
     setPayment(payment);
+
+    const discount = storeCart?.reduce((acc, next) => {
+      return acc + next?.product?.discount * next?.count;
+    }, 0);
+    setDiscount(discount);
   };
 
   return (
@@ -35,7 +40,9 @@ const Payment = ({ storeCart }) => {
         </section>
         <section className="d-flex justify-content-between py-2">
           <span>Discount</span>
-          <span className="text-green-500">- Rs {commaNumber(discount)}</span>
+          <span className="text-green-500">
+            - Rs {commaNumber(totalDiscount)}
+          </span>
         </section>
         <section className="d-flex justify-content-between py-2">
           <span>Delivery Charges</span>
@@ -46,7 +53,7 @@ const Payment = ({ storeCart }) => {
         <section className="d-flex justify-content-between py-2">
           <span>Total Amount</span>
           <span>
-            Rs {commaNumber(totalPayment - discount + deliverCharges)}
+            Rs {commaNumber(totalPayment - totalDiscount + deliverCharges)}
           </span>
         </section>
       </div>

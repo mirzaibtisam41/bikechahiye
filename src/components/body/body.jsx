@@ -1,5 +1,6 @@
 import commaNumber from "comma-number";
 import React, { useEffect, useState } from "react";
+import Dropdown from "react-bootstrap/Dropdown";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
@@ -21,28 +22,39 @@ const Body = () => {
 
   const [stateIndex, setIndex] = useState("");
   const [products, setProducts] = useState(storeProducts);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(4);
+  const [cat, setCategory] = useState("");
 
   useEffect(() => {
+    const _category = window.location.search.split("=")[1];
+    setCategory(_category);
     const _brand = window.location.pathname
       .split("/")[2]
       .split("%20")
       .join(" ");
-    filterByBrand(_brand);
+    filterByBrand(_brand, _category);
     setIndex(_brand);
   }, []);
 
-  const filterByBrand = (brand) => {
+  const filterByBrand = (brand, category) => {
     if (brand == "All") {
       setProducts(storeProducts);
       setIndex(-1);
     } else {
-      const filter = storeProducts?.filter(
+      const _filter = storeProducts?.filter(
         (item) => item.brand.toLowerCase() === brand.toLowerCase()
       );
-      setProducts(filter);
+      console.log(category);
+      if (category) {
+        const _filterByCatyegory = _filter?.filter(
+          (item) => item?.category[0].toLowerCase() === category.toLowerCase()
+        );
+        setProducts(_filterByCatyegory);
+      } else {
+        setProducts(_filter);
+      }
     }
   };
 
@@ -71,23 +83,44 @@ const Body = () => {
                     <Autocomplete filterByBrand={filterByBrand} />
                   </div>
                   <div className="normal_category">
-                    {brands?.map((brand, index) => {
+                    {brands?.map((item, index) => {
                       return (
-                        <h5
+                        <Dropdown
                           key={index}
-                          className="m-3  bold"
+                          className="mb-2 bold"
                           style={{
-                            color: stateIndex === brand?.brand ? "red" : "",
+                            marginRight: "10px",
+                            color: stateIndex === item?.brand ? "red" : "",
                             border:
-                              stateIndex === brand?.brand ? "2px solid" : "",
-                          }}
-                          onClick={() => {
-                            setIndex(brand?.brand);
-                            filterByBrand(brand?.brand);
+                              stateIndex === item?.brand ? "2px solid" : "",
                           }}
                         >
-                          {brand?.brand}
-                        </h5>
+                          <Dropdown.Toggle
+                            style={{
+                              backgroundColor: "white",
+                              color: "black",
+                              border: "none",
+                            }}
+                            id="dropdown-basic1"
+                          >
+                            {item?.brand}
+                          </Dropdown.Toggle>
+                          <Dropdown.Menu>
+                            {item?.power?.map((power) => {
+                              return (
+                                <Dropdown.Item
+                                  onClick={() => {
+                                    setCategory("");
+                                    setIndex(item?.brand);
+                                    filterByBrand(item?.brand, power?.power);
+                                  }}
+                                >
+                                  {power?.power}
+                                </Dropdown.Item>
+                              );
+                            })}
+                          </Dropdown.Menu>
+                        </Dropdown>
                       );
                     })}
                     <button
@@ -120,7 +153,10 @@ const Body = () => {
                           key={index}
                           className="product px-4 pt-4 bd-highlight bg-white b-radius border"
                         >
-                          <div className=" mb-auto bd-highlight">
+                          <div
+                            className=" mb-auto bd-highlight"
+                            style={{ height: "185px" }}
+                          >
                             <img
                               className="img-fluid mb-4 b-radius"
                               src={`${serverURL}${product.productPic}`}

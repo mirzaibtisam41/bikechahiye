@@ -7,13 +7,24 @@ import Navbar from "react-bootstrap/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAllBrandsApi } from "../../../common/api";
-import { setAllBrands } from "../../../redux/reducers/productSlice";
+import { setAllBrands, setRoute } from "../../../redux/reducers/productSlice";
 import "../../css/component.css";
+import Badge from "@mui/material/Badge";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { useState } from "react";
+import Avatar from "@mui/material/Avatar";
+import { logoutUser } from "../../../redux/reducers/user";
 
 const Navbars = () => {
   const dispatch = useDispatch();
   const { brands } = useSelector((state) => state.products);
+  const storeCart = useSelector((state) => state.products.cart);
+  const storeWishList = useSelector((state) => state.products.wishList);
+  const User = useSelector((state) => state.user.user);
   const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     getAllBrands();
@@ -28,6 +39,13 @@ const Navbars = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -48,7 +66,6 @@ const Navbars = () => {
           <Nav
             className="nav navbar col-8 me-auto my-2 my-lg-0 d-flex m-auto"
             style={{ maxHeight: "100%", color: "red" }}
-            // navbarScroll
           >
             <div
               className="col-12"
@@ -94,20 +111,43 @@ const Navbars = () => {
                       <Dropdown.Menu style={{ color: "black", width: "100%" }}>
                         {brands?.map((item, index) => {
                           return (
-                            <Dropdown.Item
-                              key={index}
-                              className="bold"
-                              onClick={() => navigate(`/brand/${item?.brand}`)}
-                            >
-                              {item?.brand}
-                            </Dropdown.Item>
+                            <Dropdown className="mb-2" key={index}>
+                              <Dropdown.Toggle
+                                style={{
+                                  backgroundColor: "white",
+                                  color: "black",
+                                  border: "none",
+                                }}
+                                id="dropdown-basic1"
+                              >
+                                {item?.brand}
+                              </Dropdown.Toggle>
+                              <Dropdown.Menu>
+                                {item?.power?.map((power) => {
+                                  return (
+                                    <Dropdown.Item
+                                      onClick={() =>
+                                        navigate(
+                                          `/brand/${item?.brand}?category=${power?.power}`
+                                        )
+                                      }
+                                    >
+                                      {power?.power}
+                                    </Dropdown.Item>
+                                  );
+                                })}
+                              </Dropdown.Menu>
+                            </Dropdown>
                           );
                         })}
                       </Dropdown.Menu>
                     </Dropdown>
                     <a
                       className="nav-item nav-link m-2 bold"
-                      onClick={() => navigate("/usebikes")}
+                      onClick={() => {
+                        dispatch(setRoute("spareParts"));
+                        navigate("/spareParts");
+                      }}
                     >
                       Spare Parts
                     </a>
@@ -140,16 +180,114 @@ const Navbars = () => {
               className=" d-flex  header-icon w-50 "
               style={{ marginLeft: "12%", color: "black" }}
             >
-              <i className="bi bi-suit-heart"></i>
-              <i
-                onClick={() => navigate("/cart")}
-                className="bi bi-basket3"
-              ></i>
+              <Badge badgeContent={storeWishList?.length} color="error">
+                <i
+                  style={{ position: "relative", left: "10px" }}
+                  onClick={() => navigate("/wishList")}
+                  className="bi bi-suit-heart"
+                ></i>
+              </Badge>
+              <Badge badgeContent={storeCart?.length} color="error">
+                <i
+                  style={{ position: "relative", left: "10px" }}
+                  onClick={() => navigate("/cart")}
+                  className="bi bi-basket3"
+                ></i>
+              </Badge>
             </div>
             <div className="nav-item d-flex m-auto login dropdown bold  w-25">
-              <a className="nav-item nav-link m-1 bold  d-flex ">
-                <i className="fa-solid fa-user fa-2x"></i>
-              </a>
+              {!User ? (
+                <>
+                  <a className="nav-item nav-link m-1 bold  d-flex ">
+                    <i
+                      className="fa-solid fa-user fa-2x"
+                      id="basic-button"
+                      aria-controls={open ? "basic-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? "true" : undefined}
+                      onClick={handleClick}
+                    ></i>
+                  </a>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}
+                  >
+                    <MenuItem
+                      onClick={() => {
+                        navigate("/login");
+                        handleClose();
+                      }}
+                    >
+                      Login
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        navigate("/signup");
+                        handleClose();
+                      }}
+                    >
+                      Register
+                    </MenuItem>
+                  </Menu>
+                </>
+              ) : (
+                <>
+                  <a className="nav-item nav-link m-1 bold  d-flex ">
+                    <Avatar
+                      id="basic-button"
+                      aria-controls={open ? "basic-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? "true" : undefined}
+                      onClick={handleClick}
+                      sx={{ bgcolor: "#dc3545" }}
+                    >
+                      {User?.name[0]}
+                    </Avatar>
+                  </a>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}
+                  >
+                    <MenuItem
+                      onClick={() => {
+                        navigate("/create");
+                        handleClose();
+                      }}
+                    >
+                      Create Bike
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        navigate("/mylist");
+                        handleClose();
+                      }}
+                    >
+                      My Bikes
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        navigate("/profile");
+                        handleClose();
+                      }}
+                    >
+                      Profile
+                    </MenuItem>
+                    <MenuItem onClick={() => dispatch(logoutUser())}>
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                </>
+              )}
             </div>
           </div>
         </Navbar.Collapse>

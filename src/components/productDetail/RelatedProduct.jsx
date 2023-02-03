@@ -12,6 +12,8 @@ const MostRelatedProduct = ({
 }) => {
   const navigate = useNavigate();
   const storeProducts = useSelector((state) => state.products.products);
+  const storeSpareParts = useSelector((state) => state.products.spareParts);
+
   const [products, setProducts] = useState([]);
   const breakPoints = [
     { width: 1, itemsToShow: 1 },
@@ -23,10 +25,17 @@ const MostRelatedProduct = ({
   ];
 
   useEffect(() => {
-    const _filter = storeProducts?.filter(
-      (item) => item?.brand === product?.brand && item?._id !== product?._id
-    );
-    setProducts(_filter);
+    if (window.location.search) {
+      const _filter = storeSpareParts?.filter(
+        (item) => item?._id !== product?._id
+      );
+      setProducts(_filter);
+    } else {
+      const _filter = storeProducts?.filter(
+        (item) => item?.brand === product?.brand && item?._id !== product?._id
+      );
+      setProducts(_filter);
+    }
   }, [product]);
 
   return (
@@ -75,7 +84,13 @@ const MostRelatedProduct = ({
                       <button
                         className="btn btn-danger"
                         onClick={() => {
-                          navigate(`/productdetailpage/${item._id}`);
+                          if (window.location.search) {
+                            navigate(
+                              `/productdetailpage/${item._id}?category=spareParts`
+                            );
+                          } else {
+                            navigate(`/productdetailpage/${item._id}`);
+                          }
                           setTimeout(() => {
                             setID(item?._id);
                             window.scrollTo(0, 300);

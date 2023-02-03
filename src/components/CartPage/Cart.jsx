@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { serverURL } from "../../common/api";
 import {
   removeCartProducts,
-  updateCartProduct
+  updateCartProduct,
 } from "../../redux/reducers/productSlice";
 import Payment from "./Payment";
 import "./style.css";
@@ -48,7 +48,9 @@ const Cart = () => {
                           <div className="d-flex cart-items-parent justify-content-around align-items-center">
                             <div className="d-flex align-items-center name-section">
                               <Avatar
-                                src={`${serverURL}${item?.product?.productPic}`}
+                                src={`${serverURL}${
+                                  item?.product?.productPic
+                                }`}
                               />
                               <div>
                                 <span className="name-margin">

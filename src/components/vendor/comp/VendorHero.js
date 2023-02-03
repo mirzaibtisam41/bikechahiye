@@ -1,19 +1,20 @@
 import React from 'react';
 import { Row, Col } from "react-bootstrap";
+import { serverURL } from '../../../common/api';
 import icon from "../../FAQ/FaqComp/img/icon.png";
 
-const VendorHero = () => {
+const VendorHero = ({ vendor }) => {
     return (
         <div className="mt-5 mb-5">
             <section className="shadow-sm mb-5">
                 <Row className="container mx-auto py-4">
                     <Col className=" d-flex justify-content-center align-items-center">
-                        <img className="faq-hero-img" src={icon} alt="" />
+                        <img className="faq-hero-img" src={`${serverURL}${vendor?.image}`} alt="" />
                     </Col>
                     <Col lg={5} style={{ letterSpacing: "1px" }} className="col-2-faq d-flex flex-column justify-content-center">
                         <p className="text-white faq-need-help hero-sec-text text-uppercase fw-bold fs-2 span-letter-spc text-muted">Need Help?</p>
                         <span className="text-muted">Feel Free to browse through our
-                        <span className="text-danger fw-bold"> FAQs </span>or<br />
+                            <span className="text-danger fw-bold"> FAQs </span>or<br />
                             <span className="text-danger text-capitalize fw-bold"> contact customer support. </span>
                             <p className="text-muted">we are here to listen 24/7.</p>
                         </span>

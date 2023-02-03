@@ -4,7 +4,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 import { serverURL } from '../../common/api'
 import { calculateRatings } from '../../common/func'
-import { removeCartProducts, setCartProducts } from '../../redux/reducers/productSlice'
+import { removeCartProducts, removeWishListProducts, setCartProducts, setWishListProducts } from '../../redux/reducers/productSlice'
 import TopSeller from '../home/TopSeller/TopSeller'
 import SuccessStory from "../sucessStory/index"
 import img1 from "./images/card5.jpg"
@@ -15,21 +15,34 @@ const ProductDetail = () => {
     const dispatch = useDispatch();
     const storeProducts = useSelector((state) => state.products.products);
     const storeCart = useSelector((state) => state.products.cart);
-    const [id, setID] = useState(window.location.pathname.split('/')[2]);
+    const storeWishList = useSelector((state) => state.products.wishList);
+    const storeSpareParts = useSelector((state) => state.products.spareParts);
 
+    const [id, setID] = useState(window.location.pathname.split('/')[2]);
     const [product, setProduct] = useState(null);
     const [rating, setRating] = useState(null);
     const [count, setCount] = useState(1);
+    const [activePic, setActivePic] = useState(0);
 
     useEffect(() => {
-        console.log(id);
-        storeProducts.forEach(item => {
-            if (item._id === id) {
-                const ratings = calculateRatings(item);
-                setRating(ratings);
-                setProduct(item);
-            }
-        });
+        if (window.location.search) {
+            storeSpareParts.forEach(item => {
+                if (item._id === id) {
+                    // const ratings = calculateRatings(item);
+                    // setRating(ratings);
+                    setProduct(item);
+                }
+            });
+        }
+        else {
+            storeProducts.forEach(item => {
+                if (item._id === id) {
+                    const ratings = calculateRatings(item);
+                    setRating(ratings);
+                    setProduct(item);
+                }
+            });
+        }
     }, [id]);
 
     return (<>
@@ -60,9 +73,44 @@ const ProductDetail = () => {
                             className={rating === 5 ? "fa fa-star checked" : "fa fa-star"}
                         ></span>
                     </div>
-                    <div className="product_img2">
-                        <img className="img-fluid rounded" src={`${serverURL}${product?.productPic}`} alt="imagesss" />
-                    </div>
+                    {
+                        window.location.search ?
+                            <div className="product_img2">
+                                <div className="img-pic-mbl">
+                                    <img className="img-pic-mbl rounded" src={`${serverURL}${product?.partPic[activePic]}`} alt="image" />
+                                </div>
+                                <section className="mt-3 d-flex justify-content-center">
+                                    {
+                                        product?.partPic?.map((item, index) => {
+                                            return <div className="p-1 mx-2 rounded"
+                                                style={{
+                                                    border: activePic === index ? '1px solid red' : null
+                                                }}
+                                            >
+                                                <img
+                                                    key={index}
+                                                    onClick={() => setActivePic(index)}
+                                                    className="img-fluid rounded border"
+                                                    src={`${serverURL}${item}`}
+                                                    alt="image"
+                                                    style={{
+                                                        width: '100px',
+                                                        height: '100px',
+                                                        objectFit: 'fill'
+                                                    }}
+                                                />
+                                            </div>
+                                        })
+                                    }
+                                </section>
+                            </div>
+                            :
+                            <div className="product_img2">
+                                <div className="img-pic-mbl">
+                                    <img className="img-pic-mbl rounded" src={`${serverURL}${product?.productPic[activePic]}`} alt="image" />
+                                </div>
+                            </div>
+                    }
                     <div className="product_description" style={{ textAlign: 'justify' }}>
                         <p>{product?.detail}</p>
                     </div>
@@ -70,32 +118,73 @@ const ProductDetail = () => {
                         <div className="table-responsive">
                             <table className="table">
                                 <tr>
-                                    <td className="main__text-4-td bold">SKU:</td>
-                                    <td className="main__text-5-td ">00776645</td>
+                                    {
+                                        window.location.search ? <>
+                                            <td className="main__text-4-td bold">Brand Name:{`${" "}`}</td>
+                                            <td className="main__text-5-td ">{product?.brand}</td>
+                                        </>
+                                            : <>
+                                                <td className="main__text-4-td bold">SKU:</td>
+                                                <td className="main__text-5-td ">00776645</td>
+                                            </>
+                                    }
                                 </tr>
                                 <tr>
                                     <td className="main__text-4-td bold">Categories:</td>
-                                    <td className="main__text-5-td ">{product && product.category[0]}</td>
+                                    {
+                                        window.location.search ?
+                                            <td className="main__text-5-td ">{product && product.category}</td>
+                                            :
+                                            <td className="main__text-5-td ">{product && product.category[0]}</td>
+                                    }
                                 </tr>
                                 <tr>
-                                    <td className="main__text-4-td bold">Location: </td>
-                                    <td className="main__text-5-td ">Lahore,punjab,</td>
+                                    {
+                                        window.location.search ?
+                                            <>
+                                                <td className="main__text-4-td bold">Available: </td>
+                                                <td className="main__text-5-td ">{product?.active ? 'Yes' : 'No'}</td>
+                                            </>
+                                            :
+                                            <>
+                                                <td className="main__text-4-td bold">Location: </td>
+                                                <td className="main__text-5-td ">Lahore,punjab,</td>
+                                            </>
+                                    }
                                 </tr>
                             </table>
                         </div>
                         <div className="table-responsive">
                             <table className="table">
                                 <tr>
-                                    <td className="main__text-4-td bold">Vendor:</td>
-                                    <td className="main__text-5-td ">Auto Store</td>
+                                    {
+                                        window.location.search ? <>
+                                            <td className="main__text-4-td bold">Discount:</td>
+                                            <td className="main__text-5-td ">{product?.discount} PKR</td>
+                                        </>
+                                            : <>
+                                                <td className="main__text-4-td bold">Vendor:</td>
+                                                <td className="main__text-5-td ">Auto Store</td>
+                                            </>
+                                    }
                                 </tr>
                                 <tr>
                                     <td className="main__text-4-td bold">Delivery:</td>
                                     <td className="main__text-5-td ">In 7 days</td>
                                 </tr>
                                 <tr>
-                                    <td className="main__text-5-td bold">Status:</td>
-                                    <label style={{ color: "seaGreen", }} for="rating1" className="main__text-5-td fa fa-cube fa-2x"></label>
+                                    {
+                                        window.location.search ?
+                                            <>
+                                                <td className="main__text-5-td bold">Type:</td>
+                                                <td className="main__text-5-td ">{product?.types}</td>
+                                            </>
+                                            :
+                                            <>
+                                                <td className="main__text-5-td bold">Status:</td>
+                                                <label style={{ color: "seaGreen", }} for="rating1" className="main__text-5-td fa fa-cube fa-2x"></label>
+                                            </>
+                                    }
                                 </tr>
                             </table>
                         </div>
@@ -116,22 +205,46 @@ const ProductDetail = () => {
                                         toast.success('Add to cart');
                                     }
                                 }}
-                                className="button_cart" role="button">
+                                className="btn text-uppercase btn-cart"
+                                style={{
+                                    backgroundColor: '#dc3545',
+                                    color: 'white'
+                                }}
+                                role="button">
                                 {
                                     storeCart?.some(item => item?.product?._id === id) ? "Remove from cart" : "Add to cart"
                                 }
                             </a>
                         </div>
                         <div className="product_qty ">
-                            <button type="button" className="button_count m-1">Pcs
+                            <button type="button" className="button_count">Pcs
                                 <input onChange={(e) => setCount(e.target.value)} className="qty m-1" type="number" defaultValue={1} min={1} />
                             </button>
                         </div>
                     </div>
                     <div className="product_wish">
                         <div className="wishlist">
-                            <i className="fa-regular fa-heart"></i>
-                            <h6 className="wishtext"> Add to my wish list </h6>
+                            <section className="d-flex" onClick={() => {
+                                if (storeWishList?.some(item => item?._id === id)) {
+                                    dispatch(removeWishListProducts(product));
+                                    toast.success('Remove from wishlist');
+                                }
+                                else {
+                                    dispatch(setWishListProducts(product));
+                                    toast.success('Add to wishlist');
+                                }
+                            }}>
+                                <i className="fa-regular fa-heart"
+                                    style={{
+                                        color: storeWishList?.some(item => item?._id === id) ? 'red' : null
+                                    }}
+                                ></i>
+                                <h6 className="wishtext">
+                                    {
+                                        storeWishList?.some(item => item?._id === id) ? "Remove from my wishlist" : "Add to my wishlist"
+                                    }
+                                </h6>
+                            </section>
                         </div>
                         <div className="compare">
                             <i className="fa-solid fa-timeline"></i>
@@ -140,8 +253,39 @@ const ProductDetail = () => {
                     </div>
                 </div>
             </div>
-            <div className="product_img container w-100" >
-                <img className="img-fluid rounded " src={img1} alt="images" />
+            <div className="product_img container" >
+                <section className="img-parent">
+                    {
+                        window.location.search ?
+                            <img className="img-pic rounded" src={`${serverURL}${product?.partPic[activePic]}`} alt="images" />
+                            :
+                            <img className="img-pic rounded" src={`${serverURL}${product?.productPic[activePic]}`} alt="images" />
+                    }
+                </section>
+                <section className="mt-3 d-flex justify-content-evenly">
+                    {
+                        product?.partPic?.map((item, index) => {
+                            return <div className="p-1 mx-2 rounded"
+                                style={{
+                                    border: activePic === index ? '1px solid red' : null
+                                }}
+                            >
+                                <img
+                                    key={index}
+                                    onClick={() => setActivePic(index)}
+                                    className="img-fluid rounded border"
+                                    src={`${serverURL}${item}`}
+                                    alt="image"
+                                    style={{
+                                        width: '100px',
+                                        height: '100px',
+                                        objectFit: 'fill'
+                                    }}
+                                />
+                            </div>
+                        })
+                    }
+                </section>
             </div>
         </section>
         <MostRelatedProduct

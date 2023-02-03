@@ -1,16 +1,15 @@
 import React from "react";
 import HeroSection from "./HeroSection";
 import ListItems from "./ListItems";
-import FeaturedProduct from "./FeaturedProduct";
 
-const index = () => {
+const Index = () => {
+
   return (
     <div>
       <HeroSection />
-      {/* <FeaturedProduct /> */}
       <ListItems />
     </div>
   );
 };
 
-export default index;
+export default Index;

@@ -5,7 +5,6 @@ import VendorList from './vendorList'
 const index = () => {
   return (
     <div>
-     
       <VendorList/>
     </div>
   )

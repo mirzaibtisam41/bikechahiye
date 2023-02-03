@@ -8,13 +8,15 @@ import Typography from '@mui/material/Typography';
 import { serverURL } from '../../common/api';
 import { Container } from '@mui/material';
 import moment from 'moment/moment';
+import { useNavigate } from 'react-router';
 
-export default function MediaCard({ bike }) {
+export default function MediaCard({ bike, dataType }) {
+    const navigate = useNavigate();
     return (
         <Card>
             <CardMedia
                 sx={{ height: 175 }}
-                image={`${serverURL}${bike?.usedBikePic}`}
+                image={`${serverURL}${bike?.usedBikePic ? bike?.usedBikePic : bike?.partPic[0]}`}
                 title="bike"
             />
             <CardContent>
@@ -27,12 +29,26 @@ export default function MediaCard({ bike }) {
                         padding: '0'
                     }}
                 >
-                    <Typography variant="h6">
-                        {`${bike?.brand}${"-"}${bike?.category[0]}`}
-                    </Typography>
-                    <Typography variant="h6">
-                        {bike?.bikeNumber}
-                    </Typography>
+                    {
+                        dataType === "spareParts" ?
+                            <Typography variant="h6">
+                                {`${bike?.brand}${"-"}${bike?.category}`}
+                            </Typography>
+                            :
+                            <Typography variant="h6">
+                                {`${bike?.brand}${"-"}${bike?.category[0]}`}
+                            </Typography>
+                    }
+                    {
+                        dataType === "spareParts" ?
+                            <Typography variant="h6">
+                                {bike?.name}
+                            </Typography>
+                            :
+                            <Typography variant="h6">
+                                {bike?.bikeNumber}
+                            </Typography>
+                    }
                 </Container>
                 <Container
                     style={{
@@ -43,12 +59,26 @@ export default function MediaCard({ bike }) {
                         padding: '0'
                     }}
                 >
-                    <Typography sx={{ color: "#dc3545" }}>
-                        {bike?.finalPrice} PKR
-                    </Typography>
-                    <Typography sx={{ color: "green" }}>
-                        {bike?.city}
-                    </Typography>
+                    {
+                        dataType === "spareParts" ?
+                            <Typography sx={{ color: "#dc3545" }}>
+                                {bike?.price} PKR
+                            </Typography>
+                            :
+                            <Typography sx={{ color: "#dc3545" }}>
+                                {bike?.finalPrice} PKR
+                            </Typography>
+                    }
+                    {
+                        dataType === "spareParts" ?
+                            <Typography sx={{ color: "green" }}>
+                                -{bike?.discount} PKR
+                            </Typography>
+                            :
+                            <Typography sx={{ color: "green" }}>
+                                {bike?.city}
+                            </Typography>
+                    }
                 </Container>
                 <Typography
                     variant="body2"
@@ -66,7 +96,21 @@ export default function MediaCard({ bike }) {
                 >
                     {moment(bike?.createdAt).format('LL')}
                 </Typography>
-                <Button size="small">Owner Contact</Button>
+                {
+                    dataType === "spareParts" ?
+                        <Button size="small" onClick={() => navigate(`/productdetailpage/${bike?._id}?category=spareParts`)}>View Details</Button>
+                        :
+                        <Button size="small">
+                            <a
+                                href={`https://wa.me/${bike?.userID?.phone}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{ color: 'black' }}
+                            >
+                                Owner Contact
+                            </a>
+                        </Button>
+                }
             </CardActions>
         </Card>
     );

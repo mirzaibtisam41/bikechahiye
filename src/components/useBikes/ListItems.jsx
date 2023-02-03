@@ -8,35 +8,40 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { getAllUsedBikeApi, getAllUsedBikeBySearchApi } from "../../common/api";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllUsedBikeApi,
+  getAllUsedBikeBySearchApi,
+  getSparePartsApi,
+} from "../../common/api";
+import { setSparePartsProducts } from "../../redux/reducers/productSlice";
 import Card from "./Card";
 import Pagination from "./Pagination";
 import "./style.css";
 
-const ListItems = () => {
+const ListItems = ({}) => {
+  const dispatch = useDispatch();
+  const dataType = useSelector((state) => state.products.route);
+  const { brands } = useSelector((state) => state.products);
   const [products, setProdcuts] = useState([]);
+  const [helpProducts, setHelpProdcuts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(9);
-  const [allBrands] = useState([
-    { label: "Honda" },
-    { label: "United" },
-    { label: "Metro" },
-    { label: "Pak Hero" },
-    { label: "Ravi" },
-    { label: "Road Prince" },
-    { label: "Super Asia" },
-    { label: "Power" },
-    { label: "Osaka" },
-    { label: "Jolta" },
-    { label: "E-Bike" },
-    { label: "Suzuki" },
-  ]);
+  const [allBrands, setAllBrands] = useState([]);
 
   useEffect(() => {
-    getUsedBikeList();
-  }, []);
+    if (dataType === "spareParts") {
+      getSparePartsList();
+    } else {
+      getUsedBikeList();
+      const _map = brands?.map((item) => {
+        return { label: item?.brand };
+      });
+      setAllBrands(_map);
+    }
+  }, [dataType]);
 
   const getUsedBikeList = async () => {
     setLoading(true);
@@ -47,10 +52,32 @@ const ListItems = () => {
       if (data) {
         setLoading(false);
         setProdcuts(data);
+        setHelpProdcuts(data);
       }
     } catch (error) {
       setLoading(false);
       toast.error("Error in fetching bikes ...!", {
+        style: {
+          background: "#333",
+          color: "#fff",
+        },
+      });
+    }
+  };
+
+  const getSparePartsList = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get(getSparePartsApi);
+      if (data) {
+        setLoading(false);
+        setProdcuts(data.Products);
+        setHelpProdcuts(data.Products);
+        dispatch(setSparePartsProducts(data.Products));
+      }
+    } catch (error) {
+      setLoading(false);
+      toast.error("Error in fetching spare parts ...!", {
         style: {
           background: "#333",
           color: "#fff",
@@ -67,6 +94,15 @@ const ListItems = () => {
     setCurrentPage(value);
   };
 
+  const filterByTypes = () => {
+    if (search === "All") {
+      setProdcuts(helpProducts);
+    } else {
+      const filterTypes = helpProducts?.filter((item) => item.types === search);
+      setProdcuts(filterTypes);
+    }
+  };
+
   return (
     <>
       <Toaster position="top-right" reverseOrder={false} />
@@ -76,34 +112,66 @@ const ListItems = () => {
             className=" h2 bold"
             style={{ borderBottom: "3px solid #dc3545", color: "black" }}
           >
-            {"USED BIKES"}
+            {dataType === "spareParts" ? "BIKES SPARE PARTS" : "USED BIKES"}
           </span>
         </section>
       </section>
-      <Container
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "1rem",
-          marginBottom: "2rem",
-        }}
-      >
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={allBrands}
-          sx={{ width: "350px" }}
-          renderInput={(params) => <TextField {...params} label="Brands" />}
-          onChange={(e, v) => setSearch(v.label)}
-        />
-        <button
-          style={{ width: "85px", marginLeft: "1rem" }}
-          className="btn btn-danger"
-          onClick={getUsedBikeList}
+      {dataType === "spareParts" ? (
+        <Container
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "1rem",
+            marginBottom: "2rem",
+          }}
         >
-          Search
-        </button>
-      </Container>
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={[
+              { label: "All" },
+              { label: "Bike Equipments" },
+              { label: "Bike OutFits" },
+            ]}
+            sx={{ width: "350px" }}
+            renderInput={(params) => <TextField {...params} label="Types" />}
+            onChange={(e, v) => setSearch(v.label)}
+          />
+          <button
+            disabled={search === "" ? true : false}
+            style={{ width: "85px", marginLeft: "1rem" }}
+            className="btn btn-danger"
+            onClick={filterByTypes}
+          >
+            Search
+          </button>
+        </Container>
+      ) : (
+        <Container
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "1rem",
+            marginBottom: "2rem",
+          }}
+        >
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={allBrands}
+            sx={{ width: "350px" }}
+            renderInput={(params) => <TextField {...params} label="Brands" />}
+            onChange={(e, v) => setSearch(v.label)}
+          />
+          <button
+            style={{ width: "85px", marginLeft: "1rem" }}
+            className="btn btn-danger"
+            onClick={getUsedBikeList}
+          >
+            Search
+          </button>
+        </Container>
+      )}
 
       {!loading && products?.length === 0 && (
         <Container className="text-danger" style={{ padding: "1rem 0px" }}>
@@ -129,7 +197,7 @@ const ListItems = () => {
           >
             {products?.length > 0 &&
               _filter?.map((item) => {
-                return <Card key={item._id} bike={item} />;
+                return <Card key={item._id} bike={item} dataType={dataType} />;
               })}
           </Container>
           {products?.length > 0 && (

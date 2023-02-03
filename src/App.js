@@ -21,6 +21,7 @@ import Profile from './components/USER/Profile';
 import Signup from './components/USER/SignUp';
 import VendorProduct from "./components/vendor/comp/vendorProduct";
 import VendorList from "./components/vendor/vendorList";
+import WishList from './components/WishList';
 import NotFound from "./utiles/NotFound";
 
 function App() {
@@ -39,10 +40,12 @@ function App() {
             <Route path="/vendorlist" element={<VendorList />} />
             <Route path="/" element={<Home />} />
             <Route path="/brand/:brand" element={<Body />} />
-            <Route path="/vendordetailpage" element={<VendorProduct />} />
+            <Route path="/vendordetailpage/:id" element={<VendorProduct />} />
             <Route path="/advancebooking" element={<BookingForm />} />
             <Route path="/usebikes" element={<UseBikes />} />
+            <Route path="/spareParts" element={<UseBikes />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/wishlist" element={<WishList />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/create" element={<CreateBike />} />

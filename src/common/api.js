@@ -16,3 +16,6 @@ export const getAllUsedBikeBySearchApi = `${serverURL}api/usedBike/searchUsedBik
 export const getAllBrandsApi = `${serverURL}api/category`;
 export const getBrandsPowerApi = `${serverURL}api/category/getBrandWithPower`;
 export const getTopSellersApi = `${serverURL}api/vendor/getAll`;
+export const getSellerProductApi = `${serverURL}api/product/getByOwner`;
+export const getSparePartsApi = `${serverURL}api/spareParts`;
+export const getSparePartsByIdApi = `${serverURL}api/spareParts/getSinglePart`;
