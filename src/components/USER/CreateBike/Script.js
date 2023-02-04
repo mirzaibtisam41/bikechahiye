@@ -9,8 +9,10 @@ export const createObject = (User, Edit, values) => {
     formData.append("finalPrice", values.Price);
     formData.append("totalUsed", values["Total Used"]);
     formData.append("city", values.City);
-    formData.append("usedBikePic", values["Bike Picture"]);
     formData.append("detail", values["Bike Detail"]);
+    for (const key in values["Bike Picture"]) {
+        formData.append("usedBikePic", values["Bike Picture"][key]);
+    }
 
     const obj = {};
     obj.useBikeID = Edit;

@@ -66,7 +66,7 @@ const BookingForm = () => {
         Edit ? updateUsedBikeApi : createUsedBikeApi,
         obj
       );
-      if (data) {
+      if (!data.error) {
         setLoading(false);
         if (data) {
           toast.success(
@@ -366,8 +366,15 @@ const BookingForm = () => {
                           id="Bike Picture"
                           name="Bike Picture"
                           autoComplete="Bike Picture"
+                          inputProps={{
+                            multiple: true,
+                          }}
                           onChange={(e) => {
-                            setFieldValue("Bike Picture", e.target.files[0]);
+                            if (e.target.files.length !== 4) {
+                              toast.error("Please Select 4 Images");
+                            } else {
+                              setFieldValue("Bike Picture", e.target.files);
+                            }
                           }}
                           type={"file"}
                           error={

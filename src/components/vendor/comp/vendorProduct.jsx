@@ -86,9 +86,10 @@ const VendorDetail = ({ heading, success }) => {
                 >
                   <div className="card">
                     <img
-                      src={`${serverURL}${item?.productPic}`}
+                      src={`${serverURL}${item?.productPic[0]}`}
                       className="card-img-top"
-                      alt="..."
+                      style={{ height: "240px" }}
+                      alt="image"
                     />
                     <div className="card-body">
                       <h5 className="card-title">{item?.name}</h5>

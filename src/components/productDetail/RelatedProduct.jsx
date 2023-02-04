@@ -65,7 +65,7 @@ const MostRelatedProduct = ({
                   <img
                     className="card-img-top"
                     style={{ height: "225px" }}
-                    src={`${serverURL}${item?.productPic}`}
+                    src={`${serverURL}${item?.productPic[0]}`}
                     alt="Card cap"
                   />
                   <div className="card-body">

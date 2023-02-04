@@ -7,7 +7,6 @@ import { calculateRatings } from '../../common/func'
 import { removeCartProducts, removeWishListProducts, setCartProducts, setWishListProducts } from '../../redux/reducers/productSlice'
 import TopSeller from '../home/TopSeller/TopSeller'
 import SuccessStory from "../sucessStory/index"
-import img1 from "./images/card5.jpg"
 import "./productDetail.css"
 import MostRelatedProduct from './RelatedProduct'
 
@@ -23,6 +22,8 @@ const ProductDetail = () => {
     const [rating, setRating] = useState(null);
     const [count, setCount] = useState(1);
     const [activePic, setActivePic] = useState(0);
+
+    console.log(product);
 
     useEffect(() => {
         if (window.location.search) {
@@ -109,6 +110,30 @@ const ProductDetail = () => {
                                 <div className="img-pic-mbl">
                                     <img className="img-pic-mbl rounded" src={`${serverURL}${product?.productPic[activePic]}`} alt="image" />
                                 </div>
+                                <section className="mt-3 d-flex justify-content-center">
+                                    {
+                                        product?.productPic?.map((item, index) => {
+                                            return <div className="p-1 mx-2 rounded"
+                                                style={{
+                                                    border: activePic === index ? '1px solid red' : null
+                                                }}
+                                            >
+                                                <img
+                                                    key={index}
+                                                    onClick={() => setActivePic(index)}
+                                                    className="img-fluid rounded border"
+                                                    src={`${serverURL}${item}`}
+                                                    alt="image"
+                                                    style={{
+                                                        width: '100px',
+                                                        height: '100px',
+                                                        objectFit: 'fill'
+                                                    }}
+                                                />
+                                            </div>
+                                        })
+                                    }
+                                </section>
                             </div>
                     }
                     <div className="product_description" style={{ textAlign: 'justify' }}>
@@ -264,26 +289,48 @@ const ProductDetail = () => {
                 </section>
                 <section className="mt-3 d-flex justify-content-evenly">
                     {
-                        product?.partPic?.map((item, index) => {
-                            return <div className="p-1 mx-2 rounded"
-                                style={{
-                                    border: activePic === index ? '1px solid red' : null
-                                }}
-                            >
-                                <img
-                                    key={index}
-                                    onClick={() => setActivePic(index)}
-                                    className="img-fluid rounded border"
-                                    src={`${serverURL}${item}`}
-                                    alt="image"
+                        window.location.search ?
+                            product?.partPic?.map((item, index) => {
+                                return <div className="p-1 mx-2 rounded"
                                     style={{
-                                        width: '100px',
-                                        height: '100px',
-                                        objectFit: 'fill'
+                                        border: activePic === index ? '1px solid red' : null
                                     }}
-                                />
-                            </div>
-                        })
+                                >
+                                    <img
+                                        key={index}
+                                        onClick={() => setActivePic(index)}
+                                        className="img-fluid rounded border"
+                                        src={`${serverURL}${item}`}
+                                        alt="image"
+                                        style={{
+                                            width: '100px',
+                                            height: '100px',
+                                            objectFit: 'fill'
+                                        }}
+                                    />
+                                </div>
+                            })
+                            :
+                            product?.productPic?.map((item, index) => {
+                                return <div className="p-1 mx-2 rounded"
+                                    style={{
+                                        border: activePic === index ? '1px solid red' : null
+                                    }}
+                                >
+                                    <img
+                                        key={index}
+                                        onClick={() => setActivePic(index)}
+                                        className="img-fluid rounded border"
+                                        src={`${serverURL}${item}`}
+                                        alt="image"
+                                        style={{
+                                            width: '100px',
+                                            height: '100px',
+                                            objectFit: 'fill'
+                                        }}
+                                    />
+                                </div>
+                            })
                     }
                 </section>
             </div>
@@ -295,7 +342,6 @@ const ProductDetail = () => {
         />
         <SuccessStory />
         <TopSeller />
-        {/* <FeaturedVendor/> */}
     </>)
 }
 export default ProductDetail

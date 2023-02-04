@@ -25,16 +25,6 @@ const AboutUs = () => {
             only five centuries.
           </p>
         </div>
-
-        {/* <div className="row align-items-center justify-content-center m-auto ">
-          <img
-            className=" row d-flex justify-content-center justify-text-center  "
-            style={{ height: "8rem", width: "8rem", position: "absolute" }}
-            src={logo}
-            alt=""
-          />
-        </div> */}
-
         <div className="lg p-5 bg-danger ">
           <h1>Hello world</h1>
           <p className="p-4">

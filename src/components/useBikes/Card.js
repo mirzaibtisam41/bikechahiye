@@ -15,8 +15,8 @@ export default function MediaCard({ bike, dataType }) {
     return (
         <Card>
             <CardMedia
-                sx={{ height: 175 }}
-                image={`${serverURL}${bike?.usedBikePic ? bike?.usedBikePic : bike?.partPic[0]}`}
+                sx={{ height: 175, objectFit: 'fill' }}
+                image={`${serverURL}${bike?.usedBikePic ? bike?.usedBikePic[0] : bike?.partPic[0]}`}
                 title="bike"
             />
             <CardContent>

@@ -131,7 +131,7 @@ const Profile = () => {
                                             inputProps={{ readOnly: true, }}
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    {/* <Grid item xs={12}>
                                         <TextField
                                             required
                                             fullWidth
@@ -166,17 +166,17 @@ const Profile = () => {
                                                 {errors.confirmPassword}
                                             </Typography>
                                         }
-                                    </Grid>
+                                    </Grid> */}
                                 </Grid>
                                 <Button
                                     fullWidth
                                     variant="contained"
                                     color='error'
                                     sx={{ mt: 3, mb: 2 }}
-                                    onClick={handleSubmit}
+                                    onClick={() => dispatch(logoutUser())}
                                     disabled={loading ? true : false}
                                 >
-                                    {loading ? <CircularProgress style={{ color: '#dc3545' }} /> : "Update Profile"}
+                                    {loading ? <CircularProgress style={{ color: '#dc3545' }} /> : "Log Out"}
                                 </Button>
                             </Box>
                         </Box>
