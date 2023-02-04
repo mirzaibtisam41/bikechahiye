@@ -23,8 +23,6 @@ const ProductDetail = () => {
     const [count, setCount] = useState(1);
     const [activePic, setActivePic] = useState(0);
 
-    console.log(product);
-
     useEffect(() => {
         if (window.location.search) {
             storeSpareParts.forEach(item => {

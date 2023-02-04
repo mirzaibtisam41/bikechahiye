@@ -60,14 +60,24 @@ const MostRelatedProduct = ({
         <div className="carousel-wrapper w-100">
           <Carousel breakPoints={breakPoints}>
             {products.map((item, index) => {
+              console.log(item);
               return (
                 <div key={index} className="card mx-2">
-                  <img
-                    className="card-img-top"
-                    style={{ height: "225px" }}
-                    src={`${serverURL}${item?.productPic[0]}`}
-                    alt="Card cap"
-                  />
+                  {window.location.search ? (
+                    <img
+                      className="card-img-top"
+                      style={{ height: "225px" }}
+                      src={`${serverURL}${item?.partPic[0]}`}
+                      alt="Card cap"
+                    />
+                  ) : (
+                    <img
+                      className="card-img-top"
+                      style={{ height: "225px" }}
+                      src={`${serverURL}${item?.productPic[0]}`}
+                      alt="Card cap"
+                    />
+                  )}
                   <div className="card-body">
                     <h5 className="card-title">{item?.name}</h5>
                     <p className="card-text justify">
