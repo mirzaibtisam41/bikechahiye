@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Carousel from "react-elastic-carousel";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const MostRelatedProduct = ({
   heading,
@@ -64,14 +65,16 @@ const MostRelatedProduct = ({
               return (
                 <div key={index} className="card mx-2">
                   {window.location.search ? (
-                    <img
+                    <LazyLoadImage
+                      effect="blur"
                       className="card-img-top"
                       style={{ height: "225px" }}
                       src={`${serverURL}${item?.partPic[0]}`}
                       alt="Card cap"
                     />
                   ) : (
-                    <img
+                    <LazyLoadImage
+                      effect="blur"
                       className="card-img-top"
                       style={{ height: "225px" }}
                       src={`${serverURL}${item?.productPic[0]}`}

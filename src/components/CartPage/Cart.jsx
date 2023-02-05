@@ -11,6 +11,7 @@ import {
 } from "../../redux/reducers/productSlice";
 import Payment from "./Payment";
 import "./style.css";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ const Cart = () => {
             >
               <div>
                 {storeCart?.map((item, index) => {
+                  console.log(item);
                   return (
                     <div key={index}>
                       <div
@@ -47,9 +49,14 @@ const Cart = () => {
                         <section className="d-flex cart-main mb-4 justify-content-between">
                           <div className="d-flex cart-items-parent justify-content-around align-items-center">
                             <div className="d-flex align-items-center name-section">
-                              <Avatar
+                              <LazyLoadImage
+                                effect="blur"
+                                height="80px"
+                                width="80px"
                                 src={`${serverURL}${
                                   item?.product?.productPic
+                                    ? item?.product?.productPic[0]
+                                    : item?.product?.partPic[0]
                                 }`}
                               />
                               <div>

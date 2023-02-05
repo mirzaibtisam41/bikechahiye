@@ -14,6 +14,7 @@ import Autocomplete from "./autocomplete";
 import BrandPoster from "./brandPoster/brandPoster";
 import Carousels from "./Carousel/carousal";
 import FeaturedProduct from "./FeaturedProduct/FeaturedProduct";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Body = () => {
   const navigate = useNavigate();
@@ -157,7 +158,8 @@ const Body = () => {
                             className=" mb-auto bd-highlight"
                             style={{ height: "185px" }}
                           >
-                            <img
+                            <LazyLoadImage
+                              effect="blur"
                               className="img-fluid mb-4 b-radius"
                               src={`${serverURL}${product.productPic}`}
                               alt="Picture"

@@ -147,7 +147,7 @@ function BikeList() {
                                 {_filter?.map((row, index) => (
                                     <StyledTableRow key={index}>
                                         <StyledTableCell component="th" scope="row">
-                                            <img style={{ width: '60px', height: '60px' }} src={`${serverURL}${row.usedBikePic}`} />
+                                            <img style={{ width: '60px', height: '60px' }} src={`${serverURL}${row.usedBikePic[0]}`} />
                                         </StyledTableCell>
                                         <StyledTableCell>{row.brand}</StyledTableCell>
                                         <StyledTableCell>{row.bikeNumber}</StyledTableCell>

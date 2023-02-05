@@ -9,6 +9,7 @@ import TopSeller from '../home/TopSeller/TopSeller'
 import SuccessStory from "../sucessStory/index"
 import "./productDetail.css"
 import MostRelatedProduct from './RelatedProduct'
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const ProductDetail = () => {
     const dispatch = useDispatch();
@@ -76,7 +77,7 @@ const ProductDetail = () => {
                         window.location.search ?
                             <div className="product_img2">
                                 <div className="img-pic-mbl">
-                                    <img className="img-pic-mbl rounded" src={`${serverURL}${product?.partPic[activePic]}`} alt="image" />
+                                    <LazyLoadImage effect="blur" className="img-pic-mbl rounded" src={`${serverURL}${product?.partPic[activePic]}`} alt="image" />
                                 </div>
                                 <section className="mt-3 d-flex justify-content-center">
                                     {
@@ -86,7 +87,7 @@ const ProductDetail = () => {
                                                     border: activePic === index ? '1px solid red' : null
                                                 }}
                                             >
-                                                <img
+                                                <LazyLoadImage effect="blur"
                                                     key={index}
                                                     onClick={() => setActivePic(index)}
                                                     className="img-fluid rounded border"
@@ -106,7 +107,7 @@ const ProductDetail = () => {
                             :
                             <div className="product_img2">
                                 <div className="img-pic-mbl">
-                                    <img className="img-pic-mbl rounded" src={`${serverURL}${product?.productPic[activePic]}`} alt="image" />
+                                    <LazyLoadImage effect="blur" className="img-pic-mbl rounded" src={`${serverURL}${product?.productPic[activePic]}`} alt="image" />
                                 </div>
                                 <section className="mt-3 d-flex justify-content-center">
                                     {
@@ -116,7 +117,7 @@ const ProductDetail = () => {
                                                     border: activePic === index ? '1px solid red' : null
                                                 }}
                                             >
-                                                <img
+                                                <LazyLoadImage effect="blur"
                                                     key={index}
                                                     onClick={() => setActivePic(index)}
                                                     className="img-fluid rounded border"
@@ -280,9 +281,9 @@ const ProductDetail = () => {
                 <section className="img-parent">
                     {
                         window.location.search ?
-                            <img className="img-pic rounded" src={`${serverURL}${product?.partPic[activePic]}`} alt="images" />
+                            <LazyLoadImage effect="blur" className="img-pic rounded" src={`${serverURL}${product?.partPic[activePic]}`} alt="images" />
                             :
-                            <img className="img-pic rounded" src={`${serverURL}${product?.productPic[activePic]}`} alt="images" />
+                            <LazyLoadImage effect="blur" className="img-pic rounded" src={`${serverURL}${product?.productPic[activePic]}`} alt="images" />
                     }
                 </section>
                 <section className="mt-3 d-flex justify-content-evenly">
@@ -294,7 +295,7 @@ const ProductDetail = () => {
                                         border: activePic === index ? '1px solid red' : null
                                     }}
                                 >
-                                    <img
+                                    <LazyLoadImage effect="blur"
                                         key={index}
                                         onClick={() => setActivePic(index)}
                                         className="img-fluid rounded border"
@@ -315,7 +316,7 @@ const ProductDetail = () => {
                                         border: activePic === index ? '1px solid red' : null
                                     }}
                                 >
-                                    <img
+                                    <LazyLoadImage effect="blur"
                                         key={index}
                                         onClick={() => setActivePic(index)}
                                         className="img-fluid rounded border"

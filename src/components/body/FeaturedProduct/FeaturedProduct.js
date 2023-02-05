@@ -1,6 +1,7 @@
 import { CircularProgress } from "@mui/material";
 import React from "react";
 import Carousel from "react-elastic-carousel";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { useNavigate } from "react-router-dom";
 
 const MostRelatedProduct = ({ heading, success, storeProducts, serverURL, loading }) => {
@@ -50,7 +51,7 @@ const MostRelatedProduct = ({ heading, success, storeProducts, serverURL, loadin
                     .map((item, index) => {
                       return (
                         <div key={index} className="card mx-2">
-                          <img className="card-img-top" src={`${serverURL}${item?.productPic}`} alt="Card cap" />
+                          <LazyLoadImage effect="blur" className="card-img-top" src={`${serverURL}${item?.productPic}`} alt="Card cap" />
                           <div className="card-body">
                             <h5 className="card-title">{item?.name}</h5>
                             <p className="card-text justify">

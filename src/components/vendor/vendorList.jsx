@@ -6,6 +6,7 @@ import { serverURL } from "../../common/api";
 import Carousals from "../body/Carousel/carousal";
 import BasicPagination from "../useBikes/Pagination";
 import "./vendor.css";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const VendorList = ({ heading, success }) => {
   const navigate = useNavigate();
@@ -49,7 +50,8 @@ const VendorList = ({ heading, success }) => {
                 onClick={() => navigate(`/vendordetailpage/${item?._id}`)}
               >
                 <div className="card bg-dark text-white">
-                  <img
+                  <LazyLoadImage
+                    effect="blur"
                     src={`${serverURL}${item?.image}`}
                     className="card-img"
                     alt="..."

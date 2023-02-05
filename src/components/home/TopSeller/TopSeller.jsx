@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { getTopSellersApi, serverURL } from "../../../common/api";
 import { setVendorsList } from "../../../redux/reducers/user";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const TopSeller = ({ heading, success }) => {
   const navigate = useNavigate();
@@ -72,7 +73,8 @@ const TopSeller = ({ heading, success }) => {
                       key={index}
                       className="card mx-2"
                     >
-                      <img
+                      <LazyLoadImage
+                        effect="blur"
                         style={{ height: "235px", width: "313px" }}
                         className="card-img-top"
                         src={`${serverURL}${item?.image}`}

@@ -8,7 +8,7 @@ import { serverURL } from "../../common/api";
 import {
     removeWishListProducts, setCartProducts
 } from "../../redux/reducers/productSlice";
-
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Cart = () => {
     const dispatch = useDispatch();
@@ -45,8 +45,11 @@ const Cart = () => {
                                                 <section className="d-flex cart-main mb-4 justify-content-between">
                                                     <div className="d-flex cart-items-parent justify-content-around align-items-center">
                                                         <div className="d-flex align-items-center name-section">
-                                                            <Avatar
+                                                            <LazyLoadImage
+                                                                effect="blur"
                                                                 src={`${serverURL}${item?.productPic}`}
+                                                                width="80px"
+                                                                height="80px"
                                                             />
                                                             <div>
                                                                 <span className="name-margin">

@@ -8,6 +8,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import pic1 from "../../images/honda.png";
 import pic2 from "../../images/qingqi.png";
 import pic3 from "../../images/carousel-2.jpg";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,7 +53,13 @@ export default function TitlebarGridList() {
         <GridList className={classes.gridList} style={{}}>
           {tileData.map((tile) => (
             <GridListTile className="flex-fill mb-1" key={tile.img}>
-              <img src={tile.img} alt={tile.title} />
+              <LazyLoadImage
+                effect="blur"
+                src={tile.img}
+                alt={tile.title}
+                height="100%"
+                width="100%"
+              />
               <GridListTileBar
                 title={tile.title}
                 subtitle={<span>by: {tile.author}</span>}
@@ -68,25 +75,6 @@ export default function TitlebarGridList() {
             </GridListTile>
           ))}
         </GridList>
-        {/* <div className="mt-2">
-          <GridList>
-            <GridListTile className="flex-fill">
-              <img src={pic3} alt="" />
-              <GridListTileBar
-                title="rerereer"
-                subtitle={<span>by:fdfdffd</span>}
-                actionIcon={
-                  <IconButton
-                    aria-label={`info about `}
-                    className={classes.icon}
-                  >
-                    <InfoIcon />
-                  </IconButton>
-                }
-              />
-            </GridListTile>
-          </GridList>
-        </div> */}
       </div>
     </>
   );
