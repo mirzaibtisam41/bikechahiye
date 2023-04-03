@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import { CircularProgress } from "@mui/material";
 import axios from "axios";
-import { GlobalContext } from "../../Context/Context.js";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./bloglist.css";
-import images from "../../images/card5.jpg";
-// import ReactHtmP
+import Card from "./Card";
+import Pagination from "../../useBikes/Pagination";
 
 const BlogsList = () => {
   const [users, setUsers] = useState([]);
@@ -12,107 +11,17 @@ const BlogsList = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
-  // const history = useHistory();
-  const { setBlogDetail } = useContext(GlobalContext);
-  // const setBlogDetailFunc= useContext(GlobalContext);
-  //   const setBlogDetailFunc = (item) => {
-  //     setBlogDetail(item)
-
-  // }
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [postsPerPage] = React.useState(9);
 
   useEffect(() => {
     const loadUsers = async () => {
       try {
         setIsLoading(true);
-        // const response = await axios.get(`https://woo-api-apicenter.herokuapp.com/api/Blogs?per_page=9&page=${page}`);
-        // console.log("testing====>", response.data)
-        // setUsers([...users, ...response.data]);
-        const users = [
-          {
-            title: "Play tmcblog-podcast and discover followers on SoundCloud ",
-            mainImage: images,
-            Heading: "SoundCloud ",
-            Subheadings: "Discover on",
-            conclusion: "",
-            Content:
-              "lorem!Error while loading data. Try again later.lorem!Error while loading data. Try again later.",
-          },
-          {
-            title: "Discover followers on SoundCloud ",
-            mainImage: images,
-            Heading: "SoundCloud ",
-            Subheadings: "Discover on",
-            conclusion: "",
-            Content:
-              "lorem!Error while loading data. Try again later.lorem!Error while loading data. Try again later.",
-          },
-          {
-            title: "Play tmcblog-podcast and discover followers on SoundCloud ",
-            mainImage: images,
-            Heading: "SoundCloud ",
-            Subheadings: "Discover on",
-            conclusion: "",
-            Content:
-              "lorem!Error while loading data. Try again later.lorem!Error while loading data. Try again later.",
-          },
-          {
-            title: "Discover followers on SoundCloud ",
-            mainImage: images,
-            Heading: "SoundCloud ",
-            Subheadings: "Discover on",
-            conclusion: "",
-            Content:
-              "lorem!Error while loading data. Try again later.lorem!Error while loading data. Try again later.",
-          },
-          {
-            title: "Play tmcblog-podcast and discover followers on SoundCloud ",
-            mainImage: images,
-            Heading: "SoundCloud ",
-            Subheadings: "Discover on",
-            conclusion: "",
-            Content:
-              "lorem!Error while loading data. Try again later.lorem!Error while loading data. Try again later.",
-          },
-          {
-            title: "Discover followers on SoundCloud ",
-            mainImage: images,
-            Heading: "SoundCloud ",
-            Subheadings: "Discover on",
-            conclusion: "",
-            Content:
-              "lorem!Error while loading data. Try again later.lorem!Error while loading data. Try again later.",
-          },
-          {
-            title: "Discover followers on SoundCloud ",
-            mainImage: images,
-            Heading: "SoundCloud ",
-            Subheadings: "Discover on",
-            conclusion: "",
-            Content:
-              "lorem!Error while loading data. Try again later.lorem!Error while loading data. Try again later.",
-          },
-          {
-            title: "Play tmcblog-podcast and discover followers on SoundCloud ",
-            mainImage: images,
-            Heading: "SoundCloud ",
-            Subheadings: "Discover on",
-            conclusion: "",
-            Content:
-              "lorem!Error while loading data. Try again later.lorem!Error while loading data. Try again later.",
-          },
-          {
-            title: "Discover followers on SoundCloud ",
-            mainImage: images,
-            Heading: "SoundCloud ",
-            Subheadings: "Discover on",
-            Content: "lorem!Error while loading data. Try again later.",
-            conclusion: "",
-            Content:
-              "lorem!Error while loading data. Try again later.lorem!Error while loading data. Try again later.",
-          },
-        ];
-        setUsers(users);
-        // setUsers((users) => [...users, ...response.data]);
+        const response = await axios.get(
+          `https://bikechahiye.blog/wp-json/wp/v2/posts?_embed`
+        );
+        setUsers(response.data);
         setErrorMsg("");
       } catch (error) {
         setErrorMsg("Error while loading data. Try again later.");
@@ -120,46 +29,37 @@ const BlogsList = () => {
         setIsLoading(false);
       }
     };
-
     loadUsers();
-  }, [page]);
+  }, []);
 
-  const loadMore = () => {
-    setPage((page) => page + 1);
-    //alert(page)
-  };
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const _filter = users?.slice(indexOfFirstPost, indexOfLastPost);
 
-  const AddDetailFunc = (item) => {
-    console.log("detail==?", item);
-    setBlogDetail(item);
-    navigate(`/news/newsdetailpage`);
-    // history.push(`/blogdetail?name=${item.title}&feature=1`)
-  };
-
-  const validateTitle = (title) => {
-    // return title
-    return title.includes("&#")
-      ? title.substring(0, title.indexOf("&#"))
-      : title;
+  const handleChange = (event, value) => {
+    setCurrentPage(value);
   };
 
   return (
     <div className="container">
-      <div className="flex">
-        {users.map((item, index) => (
-          <div className="p-2" key={index} onClick={(e) => AddDetailFunc(item)}>
-            <div className="content" key={index}>
-              <img src={item.mainImage} className="card-img-top" alt="..." />
-            </div>
-            <h3 className="contentTitle">{validateTitle(item.title)}</h3>
-          </div>
-        ))}
-      </div>
-      <div className="load-more  d-flex justify-content-center pb-5 pt-3">
-        <button onClick={() => loadMore()} className="loadMore btn-grad">
-          {isLoading ? "Loading..." : "Load More"}
-        </button>
-      </div>
+      {isLoading ? (
+        <CircularProgress style={{ color: "#dc3545" }} />
+      ) : (
+        <div id="ibtisam">
+          {_filter?.map((item, index) => (
+            <Card key={index} item={item} navigate={navigate} />
+          ))}
+        </div>
+      )}
+      {!isLoading && (
+        <div className="my-4">
+          <Pagination
+            total={users?.length}
+            postPerPage={postsPerPage}
+            handleChange={handleChange}
+          />
+        </div>
+      )}
     </div>
   );
 };

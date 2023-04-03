@@ -10,6 +10,7 @@ import SuccessStory from "../sucessStory/index"
 import "./productDetail.css"
 import MostRelatedProduct from './RelatedProduct'
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import CompareModel from './CompareModel';
 
 const ProductDetail = () => {
     const dispatch = useDispatch();
@@ -23,6 +24,14 @@ const ProductDetail = () => {
     const [rating, setRating] = useState(null);
     const [count, setCount] = useState(1);
     const [activePic, setActivePic] = useState(0);
+    const [activeCompare, setActiveCompare] = useState(false);
+    const [brands, setBrands] = React.useState([]);
+
+    React.useEffect(() => {
+        const _map = storeProducts?.map(item => item?.brand);
+        const uniq = [...new Set(_map)];
+        setBrands(uniq);
+    }, [storeProducts]);
 
     useEffect(() => {
         if (window.location.search) {
@@ -49,6 +58,10 @@ const ProductDetail = () => {
         <Toaster
             position="top-right"
             reverseOrder={false}
+        />
+        <CompareModel
+            activeCompare={activeCompare}
+            setActiveCompare={setActiveCompare}
         />
         <section className="product_detail mt-5 mb-5 col-10 ">
             <div className="container">
@@ -270,7 +283,7 @@ const ProductDetail = () => {
                                 </h6>
                             </section>
                         </div>
-                        <div className="compare">
+                        <div className="compare" onClick={() => setActiveCompare(true)}>
                             <i className="fa-solid fa-timeline"></i>
                             <h6 className="wishtext"> Compare </h6>
                         </div>

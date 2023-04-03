@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import commaNumber from "comma-number";
+import { useNavigate } from "react-router";
 
 const Payment = ({ storeCart }) => {
+  const navigate = useNavigate();
   const deliverCharges = 100;
 
   const [totalPayment, setPayment] = useState(0);
@@ -60,7 +62,12 @@ const Payment = ({ storeCart }) => {
       <div className="px-4">
         <section className="d-flex justify-content-center py-2">
           <span className="text-green-600">
-            <button className="btn btn-danger">Pay Amount</button>
+            <button
+              onClick={() => navigate("/checkout")}
+              className="btn btn-danger"
+            >
+              Checkout
+            </button>
           </span>
         </section>
       </div>

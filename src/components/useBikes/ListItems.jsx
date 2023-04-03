@@ -125,6 +125,21 @@ const ListItems = ({}) => {
             marginBottom: "2rem",
           }}
         >
+          <TextField
+            id="outlined-basic"
+            label="Search SparePart"
+            variant="outlined"
+            sx={{ width: "250px" }}
+            // onChange={(e) => {
+            //   const _filterProducts = products?.filter((item) => {
+            //     return item?.name
+            //       ?.toString()
+            //       .toLowerCase()
+            //       .includes(e.target.value.toString().toLowerCase());
+            //   });
+            //   setProdcuts(_filterProducts);
+            // }}
+          />
           <Autocomplete
             disablePortal
             id="combo-box-demo"
@@ -133,7 +148,7 @@ const ListItems = ({}) => {
               { label: "Bike Equipments" },
               { label: "Bike OutFits" },
             ]}
-            sx={{ width: "350px" }}
+            sx={{ width: "250px", marginLeft: "15px" }}
             renderInput={(params) => <TextField {...params} label="Types" />}
             onChange={(e, v) => setSearch(v.label)}
           />
@@ -195,7 +210,7 @@ const ListItems = ({}) => {
               marginTop: "10px",
             }}
           >
-            {products?.length > 0 &&
+            {_filter?.length > 0 &&
               _filter?.map((item) => {
                 return <Card key={item._id} bike={item} dataType={dataType} />;
               })}

@@ -23,6 +23,7 @@ import VendorProduct from "./components/vendor/comp/vendorProduct";
 import VendorList from "./components/vendor/vendorList";
 import WishList from './components/WishList';
 import NotFound from "./utiles/NotFound";
+import Checkout from "./components/Checkout/Checkout";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
             <Route path="/create" element={<CreateBike />} />
             <Route path="/mylist" element={<BikeList />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/checkout" element={<Checkout />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <a

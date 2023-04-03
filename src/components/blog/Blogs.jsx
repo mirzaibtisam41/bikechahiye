@@ -18,11 +18,10 @@ const Blogs=({heading, success})=>{
               >
                 {success ? success : "PK-BIKE NEWS"}
               </span>
-              <div className={success ? "my-4" : "mx-auto my-2 service-text"}>
+              <div className={success ? "my-4" : "mx-auto my-4 service-text"}>
                 {!success && (
                   <span className="text-center mt-2 mb-4">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Voluptate exercitationem sequi
+                   
                   </span>
                 )}
               </div>

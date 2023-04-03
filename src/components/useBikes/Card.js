@@ -89,12 +89,14 @@ export default function MediaCard({ bike, dataType }) {
                     {`${bike?.detail.substring(0, 160)}${bike?.detail.length > 160 ? "..." : ""}`}
                 </Typography>
             </CardContent>
+            {console.log(bike)}
             <CardActions sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography
                     variant="body2"
                     color="text.secondary"
                 >
-                    {moment(bike?.createdAt).format('LL')}
+                    {/* {moment(bike?.createdAt).format('LL')} */}
+                    {bike?.userID?.phone}
                 </Typography>
                 {
                     dataType === "spareParts" ?
@@ -107,11 +109,17 @@ export default function MediaCard({ bike, dataType }) {
                                 rel="noopener noreferrer"
                                 style={{ color: 'black' }}
                             >
-                                Owner Contact
+                                <img style={{ width: '30px' }} src={"https://png.pngtree.com/png-vector/20221018/ourmid/pngtree-whatsapp-mobile-software-icon-png-image_6315991.png"} />
                             </a>
                         </Button>
                 }
             </CardActions>
+            {/* <Typography
+                variant="body2"
+                color="text.secondary"
+            >
+                {moment(bike?.createdAt).format('LL')}
+            </Typography> */}
         </Card>
     );
 }

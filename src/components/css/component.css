@@ -3,6 +3,32 @@
   margin: 0px;
   padding: 0px;
 }
+input {
+  background: #eee;
+  border: none;
+  text-decoration: none;
+  padding: 8px 10px 10px 10px;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.brand-span:hover {
+  color: #dc3545;
+}
+.power-span:hover {
+  color: green;
+}
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+input[type="text"] {
+  -moz-appearance: textfield;
+}
+
 .bold {
   font-weight: bold;
 }

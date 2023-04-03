@@ -1,8 +1,8 @@
 import commaNumber from "comma-number";
 import React, { useEffect, useState } from "react";
-import Dropdown from "react-bootstrap/Dropdown";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { serverURL } from "../../common/api";
 import { calculateRatings } from "../../common/func";
@@ -10,11 +10,9 @@ import "../css/component.css";
 import TopSeller from "../home/TopSeller/TopSeller";
 import SuccessStory from "../sucessStory/index";
 import BasicPagination from "../useBikes/Pagination";
-import Autocomplete from "./autocomplete";
 import BrandPoster from "./brandPoster/brandPoster";
 import Carousels from "./Carousel/carousal";
 import FeaturedProduct from "./FeaturedProduct/FeaturedProduct";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Body = () => {
   const navigate = useNavigate();
@@ -22,6 +20,8 @@ const Body = () => {
   const { brands } = useSelector((state) => state.products);
 
   const [stateIndex, setIndex] = useState("");
+  const [subIndex, setSubIndex] = useState("");
+
   const [products, setProducts] = useState(storeProducts);
   const [loading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,7 +30,7 @@ const Body = () => {
 
   useEffect(() => {
     const _category = window.location.search.split("=")[1];
-    setCategory(_category);
+    setSubIndex(_category);
     const _brand = window.location.pathname
       .split("/")[2]
       .split("%20")
@@ -47,7 +47,6 @@ const Body = () => {
       const _filter = storeProducts?.filter(
         (item) => item.brand.toLowerCase() === brand.toLowerCase()
       );
-      console.log(category);
       if (category) {
         const _filterByCatyegory = _filter?.filter(
           (item) => item?.category[0].toLowerCase() === category.toLowerCase()
@@ -62,6 +61,10 @@ const Body = () => {
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const _filter = products?.slice(indexOfFirstPost, indexOfLastPost);
+
+  const _filterBrands = brands?.filter((item) =>
+    item?.brand.toLowerCase().includes(cat?.toLowerCase())
+  );
 
   const handleChange = (event, value) => {
     setCurrentPage(value);
@@ -78,60 +81,136 @@ const Body = () => {
           {!loading ? (
             <>
               <div className="child_1" style={{ width: "25%" }}>
-                <div style={{ textAlign: "left" }}>
-                  <h2 className="bold mb-3 mt-4 main-category">All Brands</h2>
-                  <div className="auto_complete">
-                    <Autocomplete filterByBrand={filterByBrand} />
+                <div class="col-md-12 col-sm-12 d-flex flex-wrap border">
+                  <div class="mb-3 d-flex justify-content-start align-items-center">
+                    <h5
+                      class="d-flex justify-content-between"
+                      style={{ paddingLeft: "1rem" }}
+                    >
+                      Products
+                    </h5>
+                    <h5 class="p-2 text-muted">{`(${products?.length})`}</h5>
                   </div>
-                  <div className="normal_category">
-                    {brands?.map((item, index) => {
-                      return (
-                        <Dropdown
-                          key={index}
-                          className="mb-2 bold"
-                          style={{
-                            marginRight: "10px",
-                            color: stateIndex === item?.brand ? "red" : "",
-                            border:
-                              stateIndex === item?.brand ? "2px solid" : "",
-                          }}
-                        >
-                          <Dropdown.Toggle
-                            style={{
-                              backgroundColor: "white",
-                              color: "black",
-                              border: "none",
-                            }}
-                            id="dropdown-basic1"
-                          >
-                            {item?.brand}
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu>
-                            {item?.power?.map((power) => {
-                              return (
-                                <Dropdown.Item
-                                  onClick={() => {
-                                    setCategory("");
-                                    setIndex(item?.brand);
-                                    filterByBrand(item?.brand, power?.power);
-                                  }}
-                                >
-                                  {power?.power}
-                                </Dropdown.Item>
-                              );
-                            })}
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      );
-                    })}
-                    <button
-                      className=" ml-3 btn btn-danger"
-                      onClick={() => {
-                        filterByBrand("All");
+                  <div class="mb-3">
+                    <h5 class="d-flex justify-content-start text-muted px-3">
+                      Price
+                    </h5>
+                    <div class="d-flex">
+                      <span>
+                        <input
+                          type="number"
+                          placeholder="from"
+                          class="w-75 rounded-pill m-1 text-center"
+                          v-model="minPrice"
+                        />
+                      </span>
+
+                      <div
+                        class="m-1"
+                        style={{ borderLeft: "3px solid #ddd" }}
+                      ></div>
+                      <span>
+                        <input
+                          type="number"
+                          placeholder="to"
+                          class="w-75 rounded-pill m-1 text-center"
+                          v-model="maxPrice"
+                        />
+                      </span>
+                    </div>
+                  </div>
+                  <div class="w-100 p-3 mb-2">
+                    <h5 class="d-flex justify-content-start text-muted">
+                      Product Categories
+                    </h5>
+
+                    <div class="d-flex m-auto pb-2">
+                      <input
+                        placeholder="Product Categories..."
+                        style={{ cursor: "pointer" }}
+                        type="text"
+                        class="w-100 rounded-pill m-1 text-center"
+                        onChange={(e) => setCategory(e.target.value)}
+                      />
+                    </div>
+                    <div
+                      style={{
+                        textAlign: "left",
+                        display: "flex",
+                        flexDirection: "column",
+                        cursor: "pointer",
                       }}
                     >
-                      View All Brand
-                    </button>
+                      {_filterBrands?.map((item, index) => {
+                        return (
+                          <>
+                            <span
+                              className="brand-span"
+                              onClick={() => {
+                                if (stateIndex === item?.brand) {
+                                  setIndex("");
+                                } else {
+                                  setIndex(item?.brand);
+                                }
+                              }}
+                              style={{
+                                fontWeight: "bold",
+                                marginBottom: "5px",
+                                color: stateIndex === item?.brand && "#dc3545",
+                              }}
+                            >
+                              {item?.brand}
+                            </span>
+                            {stateIndex === item?.brand && (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  marginLeft: "10px",
+                                }}
+                              >
+                                {item?.power?.map((p, x) => {
+                                  return (
+                                    <span
+                                      className="power-span"
+                                      onClick={() => {
+                                        setSubIndex(p?.power);
+                                        filterByBrand(item?.brand, p?.power);
+                                      }}
+                                      style={{
+                                        color:
+                                          stateIndex == item?.brand &&
+                                          subIndex == p?.power &&
+                                          "green",
+                                      }}
+                                    >
+                                      {p?.power}
+                                    </span>
+                                  );
+                                })}
+                              </div>
+                            )}
+                          </>
+                        );
+                      })}
+                    </div>
+
+                    <div class="d-flex justify-content-center m-1">
+                      <button
+                        className=" ml-3 btn btn-danger"
+                        onClick={() => {
+                          filterByBrand("All");
+                        }}
+                      >
+                        View All
+                      </button>
+                    </div>
+
+                    <a
+                      href="javascript:void(0)"
+                      style={{ color: "#29b574", fontSize: "16px" }}
+                      class="d-flex justify-content-start"
+                    ></a>
                   </div>
                 </div>
               </div>

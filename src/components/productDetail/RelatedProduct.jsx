@@ -61,7 +61,6 @@ const MostRelatedProduct = ({
         <div className="carousel-wrapper w-100">
           <Carousel breakPoints={breakPoints}>
             {products.map((item, index) => {
-              console.log(item);
               return (
                 <div key={index} className="card mx-2">
                   {window.location.search ? (
