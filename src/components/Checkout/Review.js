@@ -1,101 +1,88 @@
-import * as React from 'react';
-import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import commaNumber from "comma-number";
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import ShippingTable from './Table';
 
-const products = [
-    {
-        name: 'Product 1',
-        desc: 'A nice thing',
-        price: '$9.99',
-    },
-    {
-        name: 'Product 2',
-        desc: 'Another thing',
-        price: '$3.45',
-    },
-    {
-        name: 'Product 3',
-        desc: 'Something else',
-        price: '$6.51',
-    },
-    {
-        name: 'Product 4',
-        desc: 'Best thing of all',
-        price: '$14.11',
-    },
-    { name: 'Shipping', desc: '', price: 'Free' },
-];
+export default function Review({ handleNext, activeStep, steps, values, receipt }) {
+    const storeCart = useSelector((state) => state.products.cart);
+    const [totalPayment, setPayment] = useState(0);
+    const [totalDiscount, setDiscount] = useState(0);
 
-const addresses = ['1 MUI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
-const payments = [
-    { name: 'Card type', detail: 'Visa' },
-    { name: 'Card holder', detail: 'Mr John Smith' },
-    { name: 'Card number', detail: 'xxxx-xxxx-xxxx-1234' },
-    { name: 'Expiry date', detail: '04/2024' },
-];
+    useEffect(() => {
+        calculatePayment();
+    }, [storeCart]);
 
-export default function Review({ handleNext, handleBack, activeStep, steps }) {
+    const calculatePayment = () => {
+        const payment = storeCart?.reduce((acc, next) => {
+            return acc + next?.product?.price * next?.count;
+        }, 0);
+        setPayment(payment);
+
+        const discount = storeCart?.reduce((acc, next) => {
+            return acc + next?.product?.discount * next?.count;
+        }, 0);
+        setDiscount(discount);
+    };
+
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
                 Order summary
             </Typography>
             <List disablePadding>
-                {products.map((product) => (
-                    <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
-                        <ListItemText primary={product.name} secondary={product.desc} />
-                        <Typography variant="body2">{product.price}</Typography>
+                {storeCart?.map((p) => (
+                    <ListItem key={p?.product?._id} sx={{ py: 1, px: 0 }}>
+                        <ListItemText primary={p?.product?.name} secondary={`${p?.count} Unit`} />
+                        <Typography variant="body2">{`PKR ${commaNumber(p?.product?.price)}`}</Typography>
                     </ListItem>
                 ))}
 
                 <ListItem sx={{ py: 1, px: 0 }}>
                     <ListItemText primary="Total" />
                     <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-                        $34.06
+                        PKR {commaNumber(totalPayment - totalDiscount)}
                     </Typography>
                 </ListItem>
             </List>
-            <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+            <Grid container spacing={2} style={{ display: 'flex', flexDirection: 'column' }}>
+                <Grid item container xs={12} sm={12}>
                     <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-                        Shipping
-                    </Typography>
-                    <Typography gutterBottom>John Smith</Typography>
-                    <Typography gutterBottom>{addresses.join(', ')}</Typography>
-                </Grid>
-                <Grid item container direction="column" xs={12} sm={6}>
-                    <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-                        Payment details
+                        Shipping Details
                     </Typography>
                     <Grid container>
-                        {payments.map((payment) => (
-                            <React.Fragment key={payment.name}>
-                                <Grid item xs={6}>
-                                    <Typography gutterBottom>{payment.name}</Typography>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <Typography gutterBottom>{payment.detail}</Typography>
-                                </Grid>
-                            </React.Fragment>
-                        ))}
+                        <ShippingTable values={values} />
+                    </Grid>
+                </Grid>
+                <Grid className='p-3 d-flex justify-content-between'>
+                    <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
+                        Payment Receipt
+                    </Typography>
+                    <Grid>
+                        <img style={{
+                            width: '100px',
+                            height: '100px'
+                        }}
+                            src={URL.createObjectURL(receipt)}
+                        />
                     </Grid>
                 </Grid>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-                    {activeStep !== 0 && (
-                        <Button color='error' onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                            Back
-                        </Button>
-                    )}
-
                     <Button
                         variant="contained"
                         color='error'
-                        onClick={handleNext}
+                        onClick={() => {
+                            if (activeStep !== 2) {
+                                handleNext();
+                            }
+                        }}
                         sx={{ mt: 3, ml: 1 }}
                     >
                         {activeStep === steps.length - 1 ? 'Place order' : 'Next'}

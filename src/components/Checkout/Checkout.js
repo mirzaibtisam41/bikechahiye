@@ -18,6 +18,8 @@ const theme = createTheme();
 
 export default function Checkout() {
     const [activeStep, setActiveStep] = React.useState(0);
+    const [receipt, setReceipt] = React.useState(null);
+    const [values, setFormValues] = React.useState(null);
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
@@ -30,7 +32,7 @@ export default function Checkout() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+            <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h1" variant="h4" align="center">
                         Checkout
@@ -47,27 +49,29 @@ export default function Checkout() {
                             activeStep === 0 &&
                             <AddressForm
                                 handleNext={handleNext}
-                                handleBack={handleBack}
                                 activeStep={activeStep}
                                 steps={steps}
+                                setFormValues={setFormValues}
                             />
                         }
                         {
                             activeStep === 1 &&
                             <PaymentForm
                                 handleNext={handleNext}
-                                handleBack={handleBack}
                                 activeStep={activeStep}
                                 steps={steps}
+                                receipt={receipt}
+                                setReceipt={setReceipt}
                             />
                         }
                         {
                             activeStep === 2 &&
                             <Review
                                 handleNext={handleNext}
-                                handleBack={handleBack}
                                 activeStep={activeStep}
                                 steps={steps}
+                                values={values}
+                                receipt={receipt}
                             />
                         }
                     </React.Fragment>

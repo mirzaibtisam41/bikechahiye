@@ -217,12 +217,20 @@ footer {
   }
 
   .child_1 {
-    margin: 0px 20px;
+    padding: 1rem;
   }
 
   .child_1,
   .child_2 {
     width: 100% !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .main-brand {
+    margin: 0px !important;
+  }
+  .child_1 {
+    width: 40% !important;
   }
 }
 

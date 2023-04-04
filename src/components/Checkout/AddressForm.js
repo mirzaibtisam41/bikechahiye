@@ -7,7 +7,7 @@ import { Formik } from 'formik';
 import * as React from 'react';
 import * as Yup from 'yup';
 
-export default function AddressForm({ handleNext, handleBack, activeStep, steps }) {
+export default function AddressForm({ handleNext, activeStep, steps, setFormValues }) {
     const schema = Yup.object().shape({
         "First Name": Yup.string().required(),
         "Last Name": Yup.string().required(),
@@ -35,6 +35,7 @@ export default function AddressForm({ handleNext, handleBack, activeStep, steps 
                 }}
                 onSubmit={values => {
                     if (values) {
+                        setFormValues(values);
                         handleNext();
                     }
                 }}
@@ -166,11 +167,6 @@ export default function AddressForm({ handleNext, handleBack, activeStep, steps 
                             }
                         </Grid>
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-                            {activeStep !== 0 && (
-                                <Button color='error' onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                                    Back
-                                </Button>
-                            )}
                             <Button
                                 variant="contained"
                                 color='error'

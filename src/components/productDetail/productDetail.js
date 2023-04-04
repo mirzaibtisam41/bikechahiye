@@ -261,7 +261,7 @@ const ProductDetail = () => {
                     </div>
                     <div className="product_wish">
                         <div className="wishlist">
-                            <section className="d-flex" onClick={() => {
+                            <section style={{ width: '200px' }} className="d-flex justify-content-center align-items-center" onClick={() => {
                                 if (storeWishList?.some(item => item?._id === id)) {
                                     dispatch(removeWishListProducts(product));
                                     toast.success('Remove from wishlist');
@@ -276,11 +276,11 @@ const ProductDetail = () => {
                                         color: storeWishList?.some(item => item?._id === id) ? 'red' : null
                                     }}
                                 ></i>
-                                <h6 className="wishtext">
+                                <span style={{ fontSize: 'initial', marginLeft: '10px' }}>
                                     {
-                                        storeWishList?.some(item => item?._id === id) ? "Remove from my wishlist" : "Add to my wishlist"
+                                        storeWishList?.some(item => item?._id === id) ? "Remove from wishlist" : "Add to wishlist"
                                     }
-                                </h6>
+                                </span>
                             </section>
                         </div>
                         <div className="compare" onClick={() => setActiveCompare(true)}>

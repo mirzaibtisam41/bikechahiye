@@ -53,6 +53,7 @@ const ListItems = ({}) => {
         setLoading(false);
         setProdcuts(data);
         setHelpProdcuts(data);
+        setHelpProdcuts(data);
       }
     } catch (error) {
       setLoading(false);
@@ -72,6 +73,7 @@ const ListItems = ({}) => {
       if (data) {
         setLoading(false);
         setProdcuts(data.Products);
+        setHelpProdcuts(data.Products);
         setHelpProdcuts(data.Products);
         dispatch(setSparePartsProducts(data.Products));
       }
@@ -94,14 +96,16 @@ const ListItems = ({}) => {
     setCurrentPage(value);
   };
 
-  const filterByTypes = () => {
-    if (search === "All") {
-      setProdcuts(helpProducts);
-    } else {
-      const filterTypes = helpProducts?.filter((item) => item.types === search);
-      setProdcuts(filterTypes);
-    }
-  };
+  // const filterByTypes = () => {
+  //   if (search === "All") {
+  //     setProdcuts(helpProducts);
+  //     setHelpProdcuts(helpProducts);
+  //   } else {
+  //     const filterTypes = products?.filter((item) => item.types === search);
+  //     setProdcuts(filterTypes);
+  //     // setHelpProdcuts(filterTypes);
+  //   }
+  // };
 
   return (
     <>
@@ -129,18 +133,18 @@ const ListItems = ({}) => {
             id="outlined-basic"
             label="Search SparePart"
             variant="outlined"
-            sx={{ width: "250px" }}
-            // onChange={(e) => {
-            //   const _filterProducts = products?.filter((item) => {
-            //     return item?.name
-            //       ?.toString()
-            //       .toLowerCase()
-            //       .includes(e.target.value.toString().toLowerCase());
-            //   });
-            //   setProdcuts(_filterProducts);
-            // }}
+            sx={{ width: "350px" }}
+            onChange={(e) => {
+              const _filterProducts = helpProducts?.filter((item) => {
+                return item?.name
+                  ?.toString()
+                  .toLowerCase()
+                  .includes(e.target.value.toString().toLowerCase());
+              });
+              setProdcuts(_filterProducts);
+            }}
           />
-          <Autocomplete
+          {/* <Autocomplete
             disablePortal
             id="combo-box-demo"
             options={[
@@ -159,7 +163,7 @@ const ListItems = ({}) => {
             onClick={filterByTypes}
           >
             Search
-          </button>
+          </button> */}
         </Container>
       ) : (
         <Container
