@@ -2,10 +2,13 @@ import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Card from "./Card";
 import Pagination from "../../useBikes/Pagination";
+import Card from "./Card";
+import { setBlogsData } from "../../../redux/reducers/productSlice";
+import { useDispatch } from "react-redux";
 
 const BlogsList = () => {
+  const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,6 +25,7 @@ const BlogsList = () => {
           `https://bikechahiye.blog/wp-json/wp/v2/posts?_embed`
         );
         setUsers(response.data);
+        dispatch(setBlogsData(response.data));
         setErrorMsg("");
       } catch (error) {
         setErrorMsg("Error while loading data. Try again later.");

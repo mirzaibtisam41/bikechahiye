@@ -5,9 +5,11 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import ReactHtmlParser from "react-html-parser";
+import { useNavigate } from 'react-router';
 
 export default function MediaCard({ item }) {
-
+    const navigate = useNavigate();
+    console.log(item);
     return (
         <Card sx={{ maxWidth: 345, mb: '1rem' }}>
             <CardMedia
@@ -33,7 +35,8 @@ export default function MediaCard({ item }) {
                     style={{
                         color: '#0353a5'
                     }}
-                    target='_blank' href={item?.link}>Learn More</a>
+                    onClick={() => navigate(`/news/${item?.id}`)}
+                >Learn More</a>
             </CardActions>
         </Card>
     );

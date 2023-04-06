@@ -6,7 +6,8 @@ const initialState = {
     brands: [],
     wishList: [],
     route: null,
-    spareParts: []
+    spareParts: [],
+    blogs: []
 }
 
 const productSlice = createSlice({
@@ -27,6 +28,9 @@ const productSlice = createSlice({
         },
         setSparePartsProducts: (state, action) => {
             state.spareParts = action.payload;
+        },
+        setBlogsData: (state, action) => {
+            state.blogs = action.payload;
         },
         removeCartProducts: (state, action) => {
             state.cart = state.cart.filter(item => item.product._id !== action.payload._id);
@@ -53,6 +57,6 @@ const productSlice = createSlice({
     },
 });
 
-export const { setAllProducts, setCartProducts, removeCartProducts, updateCartProduct, setAllBrands, setRoute, setWishListProducts, removeWishListProducts, setSparePartsProducts } = productSlice.actions;
+export const { setBlogsData, setAllProducts, setCartProducts, removeCartProducts, updateCartProduct, setAllBrands, setRoute, setWishListProducts, removeWishListProducts, setSparePartsProducts } = productSlice.actions;
 
 export default productSlice.reducer;

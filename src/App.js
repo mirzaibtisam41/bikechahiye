@@ -1,29 +1,29 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
+import Cart from './components/CartPage/index';
+import Checkout from "./components/Checkout/Checkout";
+import MainContext from "./components/Context/Context";
+import FAQ from "./components/FAQ/index";
+import BikeList from './components/USER/BikeList';
+import CreateBike from './components/USER/CreateBike';
+import Login from './components/USER/LogIn';
+import Profile from './components/USER/Profile';
+import Signup from './components/USER/SignUp';
+import WishList from './components/WishList';
 import AboutUs from "./components/aboutus/index";
 import Backdrop from "./components/backdrop/BackDrop";
 import Blogs from "./components/blog/Blogs";
 import Post from "./components/blog/PostComp/Post";
 import Body from "./components/body/body";
 import BookingForm from "./components/booking/index";
-import Cart from './components/CartPage/index';
-import MainContext from "./components/Context/Context";
-import FAQ from "./components/FAQ/index";
 import Footer from "./components/footer/footer";
 import Headers from "./components/header/index";
 import Home from "./components/home/index";
 import ProductDetail from "./components/productDetail/productDetail";
 import UseBikes from "./components/useBikes/index";
-import BikeList from './components/USER/BikeList';
-import CreateBike from './components/USER/CreateBike';
-import Login from './components/USER/LogIn';
-import Profile from './components/USER/Profile';
-import Signup from './components/USER/SignUp';
 import VendorProduct from "./components/vendor/comp/vendorProduct";
 import VendorList from "./components/vendor/vendorList";
-import WishList from './components/WishList';
 import NotFound from "./utiles/NotFound";
-import Checkout from "./components/Checkout/Checkout";
 
 function App() {
   return (
@@ -34,7 +34,7 @@ function App() {
           <Backdrop />
           <Routes>
             <Route path="/news" element={<Blogs />} />
-            <Route exact path="/news/newsdetailpage" element={<Post />} />
+            <Route exact path="/news/:id" element={<Post />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/help&support" element={<FAQ />} />
             <Route path="/productdetailpage/:id" element={<ProductDetail />} />

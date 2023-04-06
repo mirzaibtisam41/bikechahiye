@@ -1,10 +1,9 @@
-import React from 'react'
-import './blog.css'
-import BlogsList from './BlogsList/BlogsList'
+import React from 'react';
+import BlogsList from './BlogsList/BlogsList';
+import './blog.css';
 
 
 const Blogs=({heading, success})=>{
-
 
     return (
       <div className="blogContainer">

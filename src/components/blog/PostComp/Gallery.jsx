@@ -1,58 +1,53 @@
-import React, { useContext } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import { Navigate } from "react-router-dom";
-import { GlobalContext } from '../../Context/Context';
-import PostDetail from './PostDetail';
-import './Gallery.css'
-
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
+import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
+import "./Gallery.css";
+import PostDetail from "./PostDetail";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        overflow: 'hidden',
-        backgroundColor: theme.palette.background.paper,
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    overflow: "hidden",
+    backgroundColor: theme.palette.background.paper,
+  },
+  gridList: {
+    height: "600px",
+
+    ["@media (max-width:768px)"]: {
+      height: "450px",
+      width: "auto",
+      backgroundPosition: "center",
+      backgroundSize: "cover",
     },
-    gridList: {
-    height:'600px',
-   
-    ['@media (max-width:768px)']: { // eslint-disable-line no-useless-computed-key
-        height: '450px',
-        width:'auto',
-        backgroundPosition:'center',
-        backgroundSize:'cover'
-      }
-    
-    },
-    icon: {
-        color: 'rgba(255, 255, 255, 0.54)',
-    },
-  
+  },
+  icon: {
+    color: "rgba(255, 255, 255, 0.54)",
+  },
 }));
 
-const Gallery = ({ blogDetail}) => {
-    const classes = useStyles();
-    const { blogsToShow, getBlogData } = useContext(GlobalContext);
-    const blog = getBlogData && getBlogData[blogsToShow];
+const Gallery = ({ blogDetail }) => {
+  const classes = useStyles();
 
-    return (
-        <div className={classes.root}>
-             {!blogDetail.mainImage ? <Navigate to="/news" />:""}
-            <GridList className={classes.gridList}>
-                <GridListTile className="cont flex-fill w-100 h-100" >
-                    <img className="images" src={blogDetail.mainImage} alt="" />
-                  
-                </GridListTile>
-            </GridList>
-            
-            <div className=" w-100" style={{backgroundColor:'white'}}>
-                <PostDetail productBlog={blogDetail} blog={blog}/>
-            </div>
-        </div>
-    )
-}
+  return (
+    <div className={classes.root}>
+      <GridList className="w-100">
+        <GridListTile className="cont flex-fill w-100 h-100">
+          <img
+            className="images w-100"
+            src={blogDetail?._embedded["wp:featuredmedia"][0].source_url}
+            alt=""
+          />
+        </GridListTile>
+      </GridList>
+
+      <div className=" w-100" style={{ backgroundColor: "white" }}>
+        <PostDetail productBlog={blogDetail} />
+      </div>
+    </div>
+  );
+};
 
 export default Gallery;

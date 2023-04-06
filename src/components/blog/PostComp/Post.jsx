@@ -1,45 +1,47 @@
-import React, { useContext } from 'react';
-import { Row, Col } from "react-bootstrap";
-import Gallery from './Gallery';
-import Category from '../Category/Category';
-import { GlobalContext } from "../../Context/Context.js";
-import PostComment from './PostComment';
-import RelatedBlogs from '../RelatedBlogs'
+import React, { useEffect, useState } from "react";
+import { Col, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router";
+import Gallery from "./Gallery";
+import { CircularProgress } from "@mui/material";
 
 const Post = () => {
-    const { getBlogData, blogDetail } = useContext(GlobalContext);
-  console.log("hshshshhshsyuuu", blogDetail)
-    return (<>
-        <div className=" pt-5 postbody">
-            
-            <section className="container">
-                <Row>
-                    <Col lg={9} className="p-2">
-                        <Gallery blogData={getBlogData} blogDetail={blogDetail} />
-                        {/* <PostComment/> */}
-                    </Col>
-                    <Col lg={3} className="p-2">
-                        <Category page="post" blogData={getBlogData} />
-                    </Col>
-                </Row>
-                
-            </section>
-            {/* <section className="container">
-                        <RelatedBlogs/>
-                        
-            </section> */}
-        </div>
-        {/* <div className="container">
-                      
-                        <About/>
-                  
-            </div>
-            <div className="postbody">
-                      
-                      <Contact/>
-                  
-            </div> */}
-    </>)
-}
+  const param = useParams();
+  const blogs = useSelector((state) => state.products.blogs);
+  const [blogDetail, setBlogDetail] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    getDetail();
+  }, []);
+
+  const getDetail = () => {
+    setLoading(true);
+    const _find = blogs?.find((item) => item.id == param?.id);
+    if (_find) {
+      setLoading(false);
+      setBlogDetail(_find);
+      console.log(_find);
+    }
+  };
+
+  return (
+    <>
+      <div className=" pt-5 postbody">
+        <section className="container">
+          <Row>
+            <Col lg={12} className="p-2">
+              {loading ? (
+                <CircularProgress />
+              ) : (
+                <Gallery blogDetail={blogDetail} />
+              )}
+            </Col>
+          </Row>
+        </section>
+      </div>
+    </>
+  );
+};
 
 export default Post;
