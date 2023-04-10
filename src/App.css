@@ -112,6 +112,14 @@ label {
   align-items: center;
 }
 
+.Mui-selected {
+  color: #dc3545 !important;
+}
+
+.MuiTabs-indicator {
+  background-color: #dc3545 !important;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

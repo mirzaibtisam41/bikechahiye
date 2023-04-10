@@ -54,7 +54,7 @@ const MostRelatedProduct = ({ heading, success, storeProducts, serverURL, loadin
                           <LazyLoadImage
                             effect="blur"
                             className="card-img-top" s
-                            rc={`${serverURL}${item?.productPic}`}
+                            src={`${serverURL}${item?.productPic}`}
                             alt="Card cap"
                             style={{
                               minHeight: '235px'

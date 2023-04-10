@@ -7,7 +7,8 @@ const initialState = {
     wishList: [],
     route: null,
     spareParts: [],
-    blogs: []
+    blogs: [],
+    rating: 0,
 }
 
 const productSlice = createSlice({
@@ -16,6 +17,9 @@ const productSlice = createSlice({
     reducers: {
         setAllBrands: (state, action) => {
             state.brands = action.payload;
+        },
+        setRating: (state, action) => {
+            state.rating = action.payload;
         },
         setAllProducts: (state, action) => {
             state.products = action.payload;
@@ -57,6 +61,6 @@ const productSlice = createSlice({
     },
 });
 
-export const { setBlogsData, setAllProducts, setCartProducts, removeCartProducts, updateCartProduct, setAllBrands, setRoute, setWishListProducts, removeWishListProducts, setSparePartsProducts } = productSlice.actions;
+export const { setRating, setBlogsData, setAllProducts, setCartProducts, removeCartProducts, updateCartProduct, setAllBrands, setRoute, setWishListProducts, removeWishListProducts, setSparePartsProducts } = productSlice.actions;
 
 export default productSlice.reducer;

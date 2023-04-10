@@ -1,14 +1,13 @@
 import { DeleteForeverOutlined } from "@material-ui/icons";
 import commaNumber from "comma-number";
 import React from "react";
-import Avatar from "react-avatar";
 import toast, { Toaster } from "react-hot-toast";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useDispatch, useSelector } from "react-redux";
 import { serverURL } from "../../common/api";
 import {
     removeWishListProducts, setCartProducts
 } from "../../redux/reducers/productSlice";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Cart = () => {
     const dispatch = useDispatch();

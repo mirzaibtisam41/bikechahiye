@@ -1,16 +1,19 @@
 import commaNumber from "comma-number"
 import React, { useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
+import { LazyLoadImage } from "react-lazy-load-image-component"
 import { useDispatch, useSelector } from 'react-redux'
 import { serverURL } from '../../common/api'
 import { calculateRatings } from '../../common/func'
-import { removeCartProducts, removeWishListProducts, setCartProducts, setWishListProducts } from '../../redux/reducers/productSlice'
+import { setRating, removeCartProducts, removeWishListProducts, setCartProducts, setWishListProducts } from '../../redux/reducers/productSlice'
 import TopSeller from '../home/TopSeller/TopSeller'
 import SuccessStory from "../sucessStory/index"
-import "./productDetail.css"
+import CompareModel from './CompareModel'
 import MostRelatedProduct from './RelatedProduct'
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import CompareModel from './CompareModel';
+import Review from './Reviews'
+import Tabs from './Tabs'
+import "./productDetail.css"
+import ReactStars from "react-rating-stars-component";
 
 const ProductDetail = () => {
     const dispatch = useDispatch();
@@ -18,14 +21,15 @@ const ProductDetail = () => {
     const storeCart = useSelector((state) => state.products.cart);
     const storeWishList = useSelector((state) => state.products.wishList);
     const storeSpareParts = useSelector((state) => state.products.spareParts);
+    const rating = useSelector((state) => state.products.rating);
 
     const [id, setID] = useState(window.location.pathname.split('/')[2]);
     const [product, setProduct] = useState(null);
-    const [rating, setRating] = useState(null);
     const [count, setCount] = useState(1);
     const [activePic, setActivePic] = useState(0);
     const [activeCompare, setActiveCompare] = useState(false);
     const [brands, setBrands] = React.useState([]);
+    const [value, setValue] = React.useState(0);
 
     React.useEffect(() => {
         const _map = storeProducts?.map(item => item?.brand);
@@ -37,8 +41,8 @@ const ProductDetail = () => {
         if (window.location.search) {
             storeSpareParts.forEach(item => {
                 if (item._id === id) {
-                    // const ratings = calculateRatings(item);
-                    // setRating(ratings);
+                    const ratings = calculateRatings(item);
+                    dispatch(setRating(ratings));
                     setProduct(item);
                 }
             });
@@ -47,7 +51,7 @@ const ProductDetail = () => {
             storeProducts.forEach(item => {
                 if (item._id === id) {
                     const ratings = calculateRatings(item);
-                    setRating(ratings);
+                    dispatch(setRating(ratings));
                     setProduct(item);
                 }
             });
@@ -63,28 +67,21 @@ const ProductDetail = () => {
             activeCompare={activeCompare}
             setActiveCompare={setActiveCompare}
         />
-        <section className="product_detail mt-5 mb-5 col-10 ">
+        <section className="product_detail col-10 ">
             <div className="container">
                 <div>
                     <h3 className="section-heading text-uppercase bold">{product?.name}</h3>
                 </div>
                 <div className="res_img">
-                    <div className="Product_rating">
-                        <span
-                            className={rating > 1 ? "fa fa-star checked" : "fa fa-star"}
-                        ></span>
-                        <span
-                            className={rating >= 2 ? "fa fa-star checked" : "fa fa-star"}
-                        ></span>
-                        <span
-                            className={rating >= 3 ? "fa fa-star checked" : "fa fa-star"}
-                        ></span>
-                        <span
-                            className={rating >= 4 ? "fa fa-star checked" : "fa fa-star"}
-                        ></span>
-                        <span
-                            className={rating === 5 ? "fa fa-star checked" : "fa fa-star"}
-                        ></span>
+                    <div className="Product_rating d-flex justify-content-center">
+                        {console.log(rating, "ddf")}
+                        <ReactStars
+                            count={5}
+                            size={30}
+                            activeColor="#dc3545"
+                            value={rating !== null ? rating : 2}
+                            edit={false}
+                        />
                     </div>
                     {
                         window.location.search ?
@@ -148,9 +145,6 @@ const ProductDetail = () => {
                                 </section>
                             </div>
                     }
-                    <div className="product_description" style={{ textAlign: 'justify' }}>
-                        <p>{product?.detail}</p>
-                    </div>
                     <div className="product_table">
                         <div className="table-responsive">
                             <table className="table">
@@ -225,6 +219,40 @@ const ProductDetail = () => {
                                 </tr>
                             </table>
                         </div>
+                    </div>
+                    <div className="border mb-4" style={{ width: '100%', margin: 'auto' }}>
+                        <Tabs
+                            value={value}
+                            setValue={setValue}
+                        />
+                        <section>
+                            {
+                                value === 0 &&
+                                <div className="p-3 d-flex align-items-start flex-column">
+                                    <section className="p-2 d-flex justify-content-between align-items-center" style={{ width: '30%' }}>
+                                        <span className="text-success bold">Type</span>
+                                        <span style={{ textTransform: 'capitalize' }}>{product?.specs[0]?.type}</span>
+                                    </section>
+                                    <section className="p-2 d-flex justify-content-between align-items-center" style={{ width: '30%' }}>
+                                        <span className="text-success bold">Shape</span>
+                                        <span style={{ textTransform: 'capitalize' }}>{product?.specs[1]?.shape}</span>
+                                    </section>
+                                    <section className="p-2 d-flex justify-content-between align-items-center" style={{ width: '30%' }}>
+                                        <span className="text-success bold">Eddition</span>
+                                        <span style={{ textTransform: 'capitalize' }}>{product?.specs[2]?.eddition}</span>
+                                    </section>
+                                </div>
+                            }
+                            {
+                                value === 1 &&
+                                <div className="product_description p-3" style={{ textAlign: 'justify' }}>
+                                    <p>{product?.detail}</p>
+                                </div>
+                            }
+                            {
+                                value === 2 && <Review setProduct={setProduct} product={product} />
+                            }
+                        </section>
                     </div>
                     <div className="product_description2 border">
                         <div className="product_price">
