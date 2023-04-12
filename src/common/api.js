@@ -20,3 +20,4 @@ export const getSellerProductApi = `${serverURL}api/product/getByOwner`;
 export const getSparePartsApi = `${serverURL}api/spareParts`;
 export const getSparePartsByIdApi = `${serverURL}api/spareParts/getSinglePart`;
 export const postReviewApi = `${serverURL}api/product/review`;
+export const postReviewSparePartApi = `${serverURL}api/spareParts/partsAddReview`;

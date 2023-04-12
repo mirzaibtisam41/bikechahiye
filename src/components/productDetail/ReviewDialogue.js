@@ -5,7 +5,7 @@ import { Col, Container, Modal, Row } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 import ReactStars from "react-rating-stars-component";
 import { useSelector } from 'react-redux';
-import { postReviewApi } from '../../common/api';
+import { postReviewApi, postReviewSparePartApi } from '../../common/api';
 
 function MydModalWithGrid(props) {
     const { user } = useSelector(state => state.user);
@@ -22,17 +22,33 @@ function MydModalWithGrid(props) {
         else {
             setLoading(true);
             let obj = {
+                pId: props.product._id,
+                uId: user?._id,
+                rating: star,
+                review: detail
+            }
+            let objProduct = {
                 productID: props.product._id,
                 user: user?._id,
                 rating: star,
                 description: detail
             }
-            const { data } = await axios.post(postReviewApi, obj);
-            if (data) {
-                setLoading(false);
-                toast.success('Review Added Successfully');
-                props?.setProduct(data);
-                props?.setModalShowFunc(false);
+            if (props?.flag) {
+                const { data } = await axios.post(postReviewApi, objProduct);
+                console.log(data, "prod");
+                if (data) {
+                    setLoading(false);
+                    toast.success('Review Added Successfully');
+                    props?.setModalShowFunc(false);
+                }
+            }
+            else {
+                const { data } = await axios.post(postReviewSparePartApi, obj);
+                if (data) {
+                    setLoading(false);
+                    toast.success('Review Added Successfully');
+                    props?.setModalShowFunc(false);
+                }
             }
         }
     }
@@ -81,10 +97,10 @@ function MydModalWithGrid(props) {
     );
 }
 
-const ReviewModal = ({ product, modalShow, setModalShowFunc, setProduct }) => {
+const ReviewModal = ({ product, modalShow, setModalShowFunc, setProduct, flag }) => {
 
     return (
-        <MydModalWithGrid setProduct={setProduct} product={product} show={modalShow} onHide={() => setModalShowFunc(false)} />
+        <MydModalWithGrid flag={flag} setProduct={setProduct} setModalShowFunc={setModalShowFunc} product={product} show={modalShow} onHide={() => setModalShowFunc(false)} />
     );
 }
 

@@ -4,13 +4,14 @@ import toast, { Toaster } from 'react-hot-toast'
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import { useDispatch, useSelector } from 'react-redux'
 import { serverURL } from '../../common/api'
-import { calculateRatings } from '../../common/func'
+import { calculateRatings, calculateRatingsForSparePart } from '../../common/func'
 import { setRating, removeCartProducts, removeWishListProducts, setCartProducts, setWishListProducts } from '../../redux/reducers/productSlice'
 import TopSeller from '../home/TopSeller/TopSeller'
 import SuccessStory from "../sucessStory/index"
 import CompareModel from './CompareModel'
 import MostRelatedProduct from './RelatedProduct'
 import Review from './Reviews'
+import ReviewProduct from './ReviewsProd'
 import Tabs from './Tabs'
 import "./productDetail.css"
 import ReactStars from "react-rating-stars-component";
@@ -41,7 +42,7 @@ const ProductDetail = () => {
         if (window.location.search) {
             storeSpareParts.forEach(item => {
                 if (item._id === id) {
-                    const ratings = calculateRatings(item);
+                    const ratings = calculateRatingsForSparePart(item);
                     dispatch(setRating(ratings));
                     setProduct(item);
                 }
@@ -74,7 +75,6 @@ const ProductDetail = () => {
                 </div>
                 <div className="res_img">
                     <div className="Product_rating d-flex justify-content-center">
-                        {console.log(rating, "ddf")}
                         <ReactStars
                             count={5}
                             size={30}
@@ -145,81 +145,6 @@ const ProductDetail = () => {
                                 </section>
                             </div>
                     }
-                    <div className="product_table">
-                        <div className="table-responsive">
-                            <table className="table">
-                                <tr>
-                                    {
-                                        window.location.search ? <>
-                                            <td className="main__text-4-td bold">Brand Name:{`${" "}`}</td>
-                                            <td className="main__text-5-td ">{product?.brand}</td>
-                                        </>
-                                            : <>
-                                                <td className="main__text-4-td bold">SKU:</td>
-                                                <td className="main__text-5-td ">00776645</td>
-                                            </>
-                                    }
-                                </tr>
-                                <tr>
-                                    <td className="main__text-4-td bold">Categories:</td>
-                                    {
-                                        window.location.search ?
-                                            <td className="main__text-5-td ">{product && product.category}</td>
-                                            :
-                                            <td className="main__text-5-td ">{product && product.category[0]}</td>
-                                    }
-                                </tr>
-                                <tr>
-                                    {
-                                        window.location.search ?
-                                            <>
-                                                <td className="main__text-4-td bold">Available: </td>
-                                                <td className="main__text-5-td ">{product?.active ? 'Yes' : 'No'}</td>
-                                            </>
-                                            :
-                                            <>
-                                                <td className="main__text-4-td bold">Location: </td>
-                                                <td className="main__text-5-td ">Lahore,punjab,</td>
-                                            </>
-                                    }
-                                </tr>
-                            </table>
-                        </div>
-                        <div className="table-responsive">
-                            <table className="table">
-                                <tr>
-                                    {
-                                        window.location.search ? <>
-                                            <td className="main__text-4-td bold">Discount:</td>
-                                            <td className="main__text-5-td ">{product?.discount} PKR</td>
-                                        </>
-                                            : <>
-                                                <td className="main__text-4-td bold">Vendor:</td>
-                                                <td className="main__text-5-td ">Auto Store</td>
-                                            </>
-                                    }
-                                </tr>
-                                <tr>
-                                    <td className="main__text-4-td bold">Delivery:</td>
-                                    <td className="main__text-5-td ">In 7 days</td>
-                                </tr>
-                                <tr>
-                                    {
-                                        window.location.search ?
-                                            <>
-                                                <td className="main__text-5-td bold">Type:</td>
-                                                <td className="main__text-5-td ">{product?.types}</td>
-                                            </>
-                                            :
-                                            <>
-                                                <td className="main__text-5-td bold">Status:</td>
-                                                <label style={{ color: "seaGreen", }} for="rating1" className="main__text-5-td fa fa-cube fa-2x"></label>
-                                            </>
-                                    }
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
                     <div className="border mb-4" style={{ width: '100%', margin: 'auto' }}>
                         <Tabs
                             value={value}
@@ -228,19 +153,80 @@ const ProductDetail = () => {
                         <section>
                             {
                                 value === 0 &&
-                                <div className="p-3 d-flex align-items-start flex-column">
-                                    <section className="p-2 d-flex justify-content-between align-items-center" style={{ width: '30%' }}>
-                                        <span className="text-success bold">Type</span>
-                                        <span style={{ textTransform: 'capitalize' }}>{product?.specs[0]?.type}</span>
-                                    </section>
-                                    <section className="p-2 d-flex justify-content-between align-items-center" style={{ width: '30%' }}>
-                                        <span className="text-success bold">Shape</span>
-                                        <span style={{ textTransform: 'capitalize' }}>{product?.specs[1]?.shape}</span>
-                                    </section>
-                                    <section className="p-2 d-flex justify-content-between align-items-center" style={{ width: '30%' }}>
-                                        <span className="text-success bold">Eddition</span>
-                                        <span style={{ textTransform: 'capitalize' }}>{product?.specs[2]?.eddition}</span>
-                                    </section>
+                                <div className="product_table p-3">
+                                    <div className="table-responsive">
+                                        <table className="table">
+                                            <tr>
+                                                {
+                                                    window.location.search ? <>
+                                                        <td className="main__text-4-td bold">Brand:{`${" "}`}</td>
+                                                        <td className="main__text-5-td ">{product?.brand}</td>
+                                                    </>
+                                                        : <>
+                                                            <td className="main__text-4-td bold">SKU:</td>
+                                                            <td className="main__text-5-td ">00776645</td>
+                                                        </>
+                                                }
+                                            </tr>
+                                            <tr>
+                                                <td className="main__text-4-td bold">Categories:</td>
+                                                {
+                                                    window.location.search ?
+                                                        <td className="main__text-5-td ">{product && product.category}</td>
+                                                        :
+                                                        <td className="main__text-5-td ">{product && product.category[0]}</td>
+                                                }
+                                            </tr>
+                                            <tr>
+                                                {
+                                                    window.location.search ?
+                                                        <>
+                                                            <td className="main__text-4-td bold">Available: </td>
+                                                            <td className="main__text-5-td ">{product?.active ? 'Yes' : 'No'}</td>
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <td className="main__text-4-td bold">Location: </td>
+                                                            <td className="main__text-5-td ">Lahore,punjab,</td>
+                                                        </>
+                                                }
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div className="table-responsive">
+                                        <table className="table">
+                                            <tr>
+                                                {
+                                                    window.location.search ? <>
+                                                        <td className="main__text-4-td bold">Discount:</td>
+                                                        <td className="main__text-5-td ">{product?.discount} PKR</td>
+                                                    </>
+                                                        : <>
+                                                            <td className="main__text-4-td bold">Vendor:</td>
+                                                            <td className="main__text-5-td ">Auto Store</td>
+                                                        </>
+                                                }
+                                            </tr>
+                                            <tr>
+                                                <td className="main__text-4-td bold">Delivery:</td>
+                                                <td className="main__text-5-td ">In 7 days</td>
+                                            </tr>
+                                            <tr>
+                                                {
+                                                    window.location.search ?
+                                                        <>
+                                                            <td className="main__text-5-td bold">Type:</td>
+                                                            <td className="main__text-5-td ">{product?.types}</td>
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <td className="main__text-5-td bold">Status:</td>
+                                                            <label style={{ color: "seaGreen", }} for="rating1" className="main__text-5-td fa fa-cube fa-2x"></label>
+                                                        </>
+                                                }
+                                            </tr>
+                                        </table>
+                                    </div>
                                 </div>
                             }
                             {
@@ -250,7 +236,13 @@ const ProductDetail = () => {
                                 </div>
                             }
                             {
-                                value === 2 && <Review setProduct={setProduct} product={product} />
+                                value === 2 ?
+                                    window.location?.search
+                                        ?
+                                        <Review setProduct={setProduct} product={product} />
+                                        :
+                                        <ReviewProduct setProduct={setProduct} product={product} />
+                                    : null
                             }
                         </section>
                     </div>
