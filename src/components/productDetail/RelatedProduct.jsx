@@ -57,68 +57,74 @@ const MostRelatedProduct = ({
           </div>
         </section>
       )}
-      <section className=" border container services-page card-page shadow-md py-2 mt-5">
-        <div className="carousel-wrapper w-100">
-          <Carousel breakPoints={breakPoints}>
-            {products.map((item, index) => {
-              return (
-                <div key={index} className="card mx-2">
-                  {window.location.search ? (
-                    <LazyLoadImage
-                      effect="blur"
-                      className="card-img-top"
-                      style={{ height: "225px" }}
-                      src={`${serverURL}${item?.partPic[0]}`}
-                      alt="Card cap"
-                    />
-                  ) : (
-                    <LazyLoadImage
-                      effect="blur"
-                      className="card-img-top"
-                      style={{ height: "225px" }}
-                      src={`${serverURL}${item?.productPic[0]}`}
-                      alt="Card cap"
-                    />
-                  )}
-                  <div className="card-body">
-                    <h5 className="card-title">{item?.name}</h5>
-                    <p className="card-text justify">
-                      {item?.detail?.substring(0, 120)}...
-                    </p>
-                    <div className="flex align-items-center justify-content-between bd-highlight">
-                      <section
-                        className="flex align-items-center"
-                        style={{ flexGrow: 2, alignItems: "center" }}
-                      >
-                        <i className="col-2 bi bi-geo-alt"></i>
-                        <span className="col">Gulberg, Lahore</span>
-                      </section>
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => {
-                          if (window.location.search) {
-                            navigate(
-                              `/productdetailpage/${item._id}?category=spareParts`
-                            );
-                          } else {
-                            navigate(`/productdetailpage/${item._id}`);
-                          }
-                          setTimeout(() => {
-                            setID(item?._id);
-                            window.scrollTo(0, 300);
-                          }, 1000);
-                        }}
-                      >
-                        See Details
-                      </button>
+      {products?.length > 0 ? (
+        <section className="container services-page card-page shadow-md py-2 mt-5">
+          <div className="carousel-wrapper w-100">
+            <Carousel breakPoints={breakPoints}>
+              {products.map((item, index) => {
+                return (
+                  <div key={index} className="card mx-2">
+                    {window.location.search ? (
+                      <LazyLoadImage
+                        effect="blur"
+                        className="card-img-top"
+                        style={{ height: "225px" }}
+                        src={`${serverURL}${item?.partPic[0]}`}
+                        alt="Card cap"
+                      />
+                    ) : (
+                      <LazyLoadImage
+                        effect="blur"
+                        className="card-img-top"
+                        style={{ height: "225px" }}
+                        src={`${serverURL}${item?.productPic[0]}`}
+                        alt="Card cap"
+                      />
+                    )}
+                    <div className="card-body">
+                      <h5 className="card-title">{item?.name}</h5>
+                      <p className="card-text justify">
+                        {item?.detail?.substring(0, 120)}...
+                      </p>
+                      <div className="flex align-items-center justify-content-between bd-highlight">
+                        <section
+                          className="flex align-items-center"
+                          style={{ flexGrow: 2, alignItems: "center" }}
+                        >
+                          <i className="col-2 bi bi-geo-alt"></i>
+                          <span className="col">Gulberg, Lahore</span>
+                        </section>
+                        <button
+                          className="btn btn-danger mt-3"
+                          onClick={() => {
+                            if (window.location.search) {
+                              navigate(
+                                `/productdetailpage/${item._id}?category=spareParts`
+                              );
+                            } else {
+                              navigate(`/productdetailpage/${item._id}`);
+                            }
+                            setTimeout(() => {
+                              setID(item?._id);
+                              window.scrollTo(0, 300);
+                            }, 1000);
+                          }}
+                        >
+                          See Details
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </Carousel>
-        </div>
-      </section>
+                );
+              })}
+            </Carousel>
+          </div>
+        </section>
+      ) : (
+        <span className="bold text-danger" style={{ position: "relative", top: "20px" }}>
+          No Related Products Available
+        </span>
+      )}
     </div>
   );
 };

@@ -31,6 +31,15 @@
     right: 10px;
     font-size: 22px;
   }
+
+  .services-page {
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+  }
+
+  /* button[tabindex="0"] {
+    display: none;
+  } */
 }
 /* ///////////// */
 
@@ -112,7 +121,11 @@ label {
   align-items: center;
 }
 
-.Mui-selected {
+.MuiPaginationItem-textSecondary {
+  color: white !important;
+}
+
+button[aria-selected="true"] {
   color: #dc3545 !important;
 }
 

@@ -46,7 +46,7 @@ const TopSeller = ({ heading, success }) => {
   return (
     <div className="mt-5 mb-5 ">
       {heading !== false && (
-        <section className="container text-center mt-4">
+        <section className="text-center mt-4">
           <span
             className=" h2 bold"
             style={{ borderBottom: "3px solid #dc3545", color: "black" }}
@@ -60,7 +60,10 @@ const TopSeller = ({ heading, success }) => {
           <CircularProgress style={{ color: "#dc3545" }} />
         </div>
       ) : (
-        <section className="mt-5 border container services-page card-page shadow-md py-2 ">
+        <section
+          style={{ margin: "0 50px" }}
+          className="mt-5 services-page card-page shadow-md py-2 "
+        >
           <div className="carousel-wrapper w-100">
             <Carousel breakPoints={breakPoints}>
               {seller
@@ -72,10 +75,11 @@ const TopSeller = ({ heading, success }) => {
                       onClick={() => navigate(`/vendordetailpage/${item?._id}`)}
                       key={index}
                       className="card mx-2"
+                      style={{ width: "100%" }}
                     >
                       <LazyLoadImage
                         effect="blur"
-                        style={{ height: "235px", width: "313px" }}
+                        style={{ height: "235px", width: "100%" }}
                         className="card-img-top"
                         src={`${serverURL}${item?.image}`}
                         alt="Seller Pic"

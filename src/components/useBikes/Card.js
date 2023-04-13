@@ -89,7 +89,6 @@ export default function MediaCard({ bike, dataType }) {
                     {`${bike?.detail.substring(0, 160)}${bike?.detail.length > 160 ? "..." : ""}`}
                 </Typography>
             </CardContent>
-            {console.log(bike)}
             <CardActions sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography
                     variant="body2"

@@ -21,7 +21,6 @@ const Post = () => {
     if (_find) {
       setLoading(false);
       setBlogDetail(_find);
-      console.log(_find);
     }
   };
 

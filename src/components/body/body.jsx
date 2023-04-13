@@ -25,7 +25,7 @@ const Body = () => {
   const [products, setProducts] = useState(storeProducts);
   const [loading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(4);
+  const [postsPerPage] = useState(15);
   const [cat, setCategory] = useState("");
 
   useEffect(() => {
@@ -73,10 +73,17 @@ const Body = () => {
   return (
     <div>
       <Carousels />
-      <div
-        className="py-5 px-4 bg-white main-brand"
-        style={{ margin: "0px 90px" }}
-      >
+      <section className="text-center bygga-parent equip-parent py-3">
+        <section className="container text-center">
+          <span
+            className=" h2 bold"
+            style={{ borderBottom: "3px solid #dc3545", color: "black" }}
+          >
+            New Bikes
+          </span>
+        </section>
+      </section>
+      <div className="py-3 bg-white main-brand" style={{ margin: "0px 50px" }}>
         <section className="d-flex sec-parent">
           {!loading ? (
             <>
@@ -220,10 +227,10 @@ const Body = () => {
                     height: "100%",
                     position: "relative",
                     display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
+                    gridTemplateColumns: "1fr 1fr 1fr",
                     gridGap: "1.5rem",
                   }}
-                  className="containers border p-4"
+                  className="containers px-4"
                 >
                   {_filter?.length > 0 ? (
                     _filter
@@ -231,7 +238,8 @@ const Body = () => {
                       .map((product, index) => (
                         <div
                           key={index}
-                          className="product px-4 pt-4 bd-highlight bg-white b-radius border"
+                          style={{ height: "fit-content" }}
+                          className="product p-3 bd-highlight bg-white b-radius border"
                         >
                           <div
                             className=" mb-auto bd-highlight"
@@ -250,9 +258,9 @@ const Body = () => {
                           </div>
                           <div
                             className="bd-highlight justify"
-                            style={{ minHeight: "80px" }}
+                            style={{ minHeight: "60px" }}
                           >
-                            <span>{product?.detail?.substring(0, 100)}...</span>
+                            <span>{product?.detail?.substring(0, 60)}...</span>
                           </div>
                           <div
                             className="bd-highlight"

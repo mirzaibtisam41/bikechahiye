@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router';
 
 export default function MediaCard({ item }) {
     const navigate = useNavigate();
-    console.log(item);
     return (
         <Card sx={{ maxWidth: 345, mb: '1rem' }}>
             <CardMedia

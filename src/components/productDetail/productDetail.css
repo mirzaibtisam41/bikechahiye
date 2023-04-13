@@ -209,7 +209,7 @@ a:hover {
   }
   .product_detail {
     margin: 0px !important;
-    width: 95% !important;
+    width: 100% !important;
   }
 }
 @media (max-width: 410px) {

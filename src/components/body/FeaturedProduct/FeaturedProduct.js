@@ -43,7 +43,7 @@ const MostRelatedProduct = ({ heading, success, storeProducts, serverURL, loadin
             <CircularProgress style={{ color: "#dc3545" }} />
           </div>
           :
-          <section className="border mt-5 container services-page card-page shadow-md py-2 ">
+          <section style={{ margin: '0px 50px' }} className="mt-5 services-page card-page shadow-md py-2 ">
             <div className="carousel-wrapper w-100">
               <Carousel breakPoints={breakPoints}>
                 {storeProducts?.length > 0 &&
@@ -57,7 +57,7 @@ const MostRelatedProduct = ({ heading, success, storeProducts, serverURL, loadin
                             src={`${serverURL}${item?.productPic}`}
                             alt="Card cap"
                             style={{
-                              minHeight: '235px'
+                              height: '235px'
                             }}
                           />
                           <div className="card-body">
@@ -70,7 +70,7 @@ const MostRelatedProduct = ({ heading, success, storeProducts, serverURL, loadin
                                 <i className="col-2 bi bi-geo-alt"></i>
                                 <span className="col">Gulberg, Lahore</span>
                               </section>
-                              <button className="btn btn-danger"
+                              <button className="btn btn-danger mt-3"
                                 onClick={() =>
                                   navigate(`/productdetailpage/${item._id}`)
                                 }

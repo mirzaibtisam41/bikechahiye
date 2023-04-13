@@ -20,8 +20,6 @@ const Reviews = ({ product, setProduct }) => {
         }
     }
 
-    console.log(product, "prod")
-
     return (
         <section className="bg-white mt-2 mx-4 py-4 body-font">
             <Toaster position="top-right" reverseOrder={false} />
@@ -35,9 +33,9 @@ const Reviews = ({ product, setProduct }) => {
                     </button>
                 </div>
                 {
-                    (product && product?.reviews?.length > 0) ? product?.reviews?.filter(item => item?.approved === true)?.map((item, index) => {
+                    (product && product?.pRatingsReviews?.length > 0) ? product?.pRatingsReviews?.filter(item => item?.approved === true)?.map((item, index) => {
                         if (index <= showReview) {
-                            return <div key={index} className="py-2 divide-gray-100" style={{ borderBottom: index < product?.reviews?.length - 1 && "1px solid #dee2e6" }}>
+                            return <div key={index} className="py-2 divide-gray-100" style={{ borderBottom: index < product?.pRatingsReviews?.length - 1 && "1px solid #dee2e6" }}>
                                 <div className="pb-1 flex flex-wrap md:flex-nowrap flex-col">
                                     <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
                                         <div style={{

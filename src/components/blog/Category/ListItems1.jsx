@@ -43,7 +43,6 @@ export default function AlignItemsList({ blogData, array }) {
                                 tabIndex={-1}
                                 disableRipple
                             />
-                            {console.log(index)}
                         </ListItemIcon> */}
                         <ListItemText
                             primary={item.title}

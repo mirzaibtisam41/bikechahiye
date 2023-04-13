@@ -24,18 +24,11 @@ function MydModalWithGrid(props) {
             let obj = {
                 pId: props.product._id,
                 uId: user?._id,
-                rating: star,
-                review: detail
-            }
-            let objProduct = {
-                productID: props.product._id,
-                user: user?._id,
-                rating: star,
-                description: detail
+                review: detail,
+                rating: star
             }
             if (props?.flag) {
-                const { data } = await axios.post(postReviewApi, objProduct);
-                console.log(data, "prod");
+                const { data } = await axios.post(postReviewApi, obj);
                 if (data) {
                     setLoading(false);
                     toast.success('Review Added Successfully');
